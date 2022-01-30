@@ -126,7 +126,6 @@ def get_orders():
 
 	return result
 
-# get_orders()
 # print(add_orders('Vinol D Souza'))
 
 def add_new_employee( eid,ename, role,ephone,epass ):
