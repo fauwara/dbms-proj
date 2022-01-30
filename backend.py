@@ -89,3 +89,52 @@ def add_orders(rcv_date,S_ID,lst_items ):
 	return result
 
 # print(add_orders('Vinol D Souza'))
+
+def add_new_employee( eid,ename, role,ephone,epass ):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	cur.execute(f"""
+		INSERT INTO `distributor`.`employee`
+		(`E_ID`,`E_Name`,`E_Role`,`E_Phone`,`password`)
+		VALUES
+		({eid},{ename},{role},{ephone},{epass}); """)
+	
+	
+
+	cnx.commit()
+	cnx.close()
+
+	# add_new_employee('3','willy','manager',1112313,'willy123')
+
+	def add_new_supplier( sname,sphone,semail ):
+		cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+		cur = cnx.cursor()
+
+		cur.execute(f"""
+			INSERT INTO `distributor`.`supplier`
+			(`S_Name`,`S_Email`,`S_Phone`)
+			VALUES
+			({sname},{sphone},{semail}); """) 
+
+			# not sure how to get emp_id in here
+
+		cnx.commit()
+		cnx.close()
+
+	
+
+	def add_new_retailer( rname,rphone,remail,rloc ):
+		cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+		cur = cnx.cursor()
+
+		cur.execute(f"""
+			INSERT INTO `distributor`.`retailer`
+			(`R_Name`,`R_Phone`,`R_Email`,`Loc`)
+			VALUES
+			({rname},{rphone},{remail},{rloc}); """) 
+
+			# not sure how to get emp_id in here
+
+		cnx.commit()
+		cnx.close()
