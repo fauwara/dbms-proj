@@ -95,9 +95,10 @@ def restock_orders( order, items ):
 
 # items = [
 # 	{
-# 		"id": "7",
+# 		"id": "1",
 # 		"quantity": 100
-# 	},
+# 	}
+	# ,
 # 	{
 # 		"id": "10",
 # 		"quantity": 200
@@ -126,7 +127,8 @@ def get_orders():
 
 	return result
 
-# get_orders()
+for i in get_orders():
+	print(i)
 
 # print(add_orders('Vinol D Souza'))
 
@@ -145,7 +147,7 @@ def add_new_employee( eid,ename, role,ephone,epass ):
 	cnx.commit()
 	cnx.close()
 
-	# add_new_employee('3','willy','manager',1112313,'willy123')
+	# add_new_employee('3','willy','delivery staff',1112313,'willy123')
 
 def add_new_supplier( sname,sphone,semail ):
 		cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
