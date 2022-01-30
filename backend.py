@@ -107,7 +107,7 @@ def add_new_employee( eid,ename, role,ephone,epass ):
 
 	# add_new_employee('3','willy','manager',1112313,'willy123')
 
-	def add_new_supplier( sname,sphone,semail ):
+def add_new_supplier( sname,sphone,semail ):
 		cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
 		cur = cnx.cursor()
 
@@ -124,7 +124,7 @@ def add_new_employee( eid,ename, role,ephone,epass ):
 
 	
 
-	def add_new_retailer( rname,rphone,remail,rloc ):
+def add_new_retailer( rname,rphone,remail,rloc ):
 		cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
 		cur = cnx.cursor()
 
