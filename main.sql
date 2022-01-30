@@ -11,7 +11,7 @@ INSERT INTO EMPLOYEE (E_Name, E_Password, E_Role, E_Phone) VALUES('Vinol Dsouza'
 INSERT INTO EMPLOYEE (E_Name, E_Password, E_Role, E_Phone) VALUES('Abhishek', '123', 'Delivery Staff', 8904751906);
 
 -- ALTER TABLE ADD COLUMN E_Password VARCHAR(20);
--- UPDATE TABLE EMPLOYEE SET E_Password = '123';
+-- UPDATE EMPLOYEE SET E_Password = '123';
 -- ALTER TABLE EMPLOYEE MODIFY E_PHONE BIGINT(10)
 -- SELECT * FROM EMPLOYEE;
 
@@ -69,6 +69,13 @@ CREATE TABLE ITEMS_ORDERED (
 	I_ID INT REFERENCES ITEMS(I_ID) ON DELETE CASCADE,
 	Quantity INT(10)
 );
+
+-- VIEW ORDERS
+SELECT O.O_ID, O.Ord_Date, O.Rcv_Date, I.I_ID, I.I_Name, I.Price, I.Quantity
+FROM ORDERS O, ITEMS I, ITEMS_ORDERED I_O
+WHERE O.O_ID = I_O.O_ID AND I.I_ID = I_O.I_ID;
+
+SELECT O.O_ID, O.Ord_Date, O.Rcv_Date FROM ORDERS
 
 INSERT INTO `distributor`.`employee`
 (`E_ID`,
@@ -169,3 +176,6 @@ INSERT INTO `ITEMS`
 		( `I_Name`, `Price`, `Quantity`)
 		VALUES
 		( 'tom',  3, 5 );
+
+UPDATE ITEMS
+SET Quantity = 1000 + (SELECT Quantity FROM ITEMS WHERE I_ID = 6);
