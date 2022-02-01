@@ -126,9 +126,10 @@ def update_stock( order, items ):
 
 # items = [
 # 	{
-# 		"id": "7",
+# 		"id": "1",
 # 		"quantity": 100
-# 	},
+# 	}
+	# ,
 # 	{
 # 		"id": "10",
 # 		"quantity": 200
@@ -168,7 +169,12 @@ def get_orders():
 
 	return result
 
+
+# for i in get_orders():
+# 	print(i)
+
 ########################################################### VIEWING ITEMS ###################################################################
+
 
 def get_items():
 	
@@ -221,7 +227,11 @@ def add_new_supplier( sname, sphone, semail ):
 	cnx.commit()
 	cnx.close()
 
+
+	# add_new_employee('3','willy','delivery staff',1112313,'willy123')
+
 ########################################################### ADD RETAILER ###################################################################
+
 
 def add_new_retailer( rname, rphone, remail, rloc ):
 	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
