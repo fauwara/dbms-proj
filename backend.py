@@ -126,9 +126,10 @@ def update_stock( order, items ):
 
 # items = [
 # 	{
-# 		"id": "7",
+# 		"id": "1",
 # 		"quantity": 100
-# 	},
+# 	}
+	# ,
 # 	{
 # 		"id": "10",
 # 		"quantity": 200
@@ -168,7 +169,12 @@ def get_orders():
 
 	return result
 
+
+# for i in get_orders():
+# 	print(i)
+
 ########################################################### VIEWING ITEMS ###################################################################
+
 
 def get_items():
 	
@@ -227,6 +233,9 @@ def add_new_supplier( user_data ):
 	except :
 		cnx.close()
 		return 0
+
+
+	# add_new_employee('3','willy','delivery staff',1112313,'willy123')
 
 ########################################################### ADD RETAILER ###################################################################
 
