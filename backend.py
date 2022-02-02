@@ -17,7 +17,7 @@ def add_new_item( order, item ):
 		INSERT INTO ORDERS
 		( Ord_date, Rcv_Date, S_ID )
 		VALUES
-		( curdate(), '{order["rcv_date"]}', {order["s_id"]} ); """)
+		( curdate(), '{order["rcv_date"]}', '{order["s_id"]}' ); """)
 	
 	cur.execute(f"select MAX(O_ID) from orders;")
 	max_o_id = cur.fetchone()[0]
@@ -202,91 +202,109 @@ def add_new_employee( eid, epass, ename, role, ephone ):
 	cnx.commit()
 	cnx.close()
 
+
+
 # add_new_employee('3', 'willy123', 'willy','delivery man', 1112313)
 
 ########################################################### ADD SUPPLIER ###################################################################
 
-def add_new_supplier( sname, sphone, semail ):
+def add_new_supplier( user_data ):
 	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
 	cur = cnx.cursor()
 
-	cur.execute(f"""
-		INSERT INTO SUPPLIER
-		( S_Name, S_Email, S_Phone)
-		VALUES
-		( {sname}, {sphone}, {semail}); """) 
+	try:
+		cur.execute(f"""
+			INSERT INTO SUPPLIER
+			( S_ID, S_Password, S_Name, S_Email, S_Phone, E_ID )
+			VALUES
+			('{user_data['username']}', '{user_data['password']}', '{user_data['name']}', '{user_data['email']}', {user_data['phone']}, 'fauwara');""") 
+	
+		cnx.commit()
+		cnx.close()
+		
+		return 1
 
-		# not sure how to get emp_id in here
-
-	cnx.commit()
-	cnx.close()
+	except :
+		cnx.close()
+		return 0
 
 ########################################################### ADD RETAILER ###################################################################
 
-def add_new_retailer( rname, rphone, remail, rloc ):
+def add_new_retailer( user_data ):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	try:
+		cur.execute(f"""
+			INSERT INTO RETAILER
+			( R_ID, R_Password, R_Name, R_Email, R_Phone, E_ID )
+			VALUES
+			('{user_data['username']}', '{user_data['password']}', '{user_data['name']}', '{user_data['email']}', {user_data['phone']}, 'fauwara');""") 
+	
+		cnx.commit()
+		cnx.close()
+		
+		return 1
+
+	except :
+		cnx.close()
+		return 0
+
+############################################################# LOGIN  ###################################################################
+
+def login_supplier(user_data):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+	
+	cur.execute(f"""
+		SELECT S_Password FROM SUPPLIER 
+		WHERE S_ID = '{user_data['username']}'
+		""")
+	
+	user_pass = cur.fetchone()
+	if user_pass:
+		if user_pass[0] == user_data['password']:
+			return 1
+		else:
+			return 0
+	else:
+		return 0
+
+def login_retailer(user_data):
 	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
 	cur = cnx.cursor()
 
 	cur.execute(f"""
-	INSERT INTO RETAILER
-	( R_Name, R_Phone, R_Email, R_Loc)
-	VALUES
-	( {rname}, {rphone}, {remail}, {rloc}); """) 
+		SELECT R_Password FROM RETAILER 
+		WHERE R_ID = '{user_data['username']}'
+	""")
 
-		# not sure how to get emp_id in here
-
-	cnx.commit()
-	cnx.close()
-
-############################################################# LOGIN  ###################################################################
-
-def login( user_data ):
-	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
-	cur = cnx.cursor()
-
-	def check_pass():
-		user_pass = cur.fetchone()[0]
-		if user_pass == user_data['password']:
+	user_pass = cur.fetchone()
+	if user_pass:
+		if user_pass[0] == user_data['password']:
 			return 1
 		else:
 			return 0
+	else:
+		return 0
 
-	if user_data['role'] == 1:
-		cur.execute(f"""
-			SELECT S_Password FROM SUPPLIER 
-			WHERE S_ID = {user_data['username']}
-			""")
-		
-		return(check_pass)
-	
-	elif user_data['role'] == 2:
-		cur.execute(f"""
-			SELECT R_Password FROM RETAILER 
-			WHERE R_ID = {user_data['username']}
-			""")
-		
-		return(check_pass)
-		
-	elif user_data['role'] == 3:
-		cur.execute(f"""
-			SELECT E_Password FROM EMPLOYEE 
-			WHERE E_ID = {user_data['username']}
-			""")
-	
-		return(check_pass)
+def login_employee(user_data):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
 
-	cnx.commit()
-	cnx.close()
+	cur.execute(f"""
+		SELECT E_Password FROM EMPLOYEE 
+		WHERE E_ID = '{user_data['username']}'
+		""")
 
-# dummy data
-
-# user_data = {
-# 	'username': 1,
-# 	'password': '123',
-# 	'role': 2
-# }
-
-# print(login( user_data ))
+	user_pass = cur.fetchone()
+	if user_pass:
+		if user_pass[0] == user_data['password']:
+			return 1
+		else:
+			return 0
+	else:
+		return 0
 
 ########################################################### SALES OF TODAY ###################################################################
 
@@ -309,3 +327,54 @@ def sales_of_today():
 
 # for i in sales_of_today():
 # 	print(i)
+
+########################################################### GET-DETAILS ###################################################################
+
+def get_sup( sid ):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	cur.execute(f"""
+	SELECT * FROM SUPPLIER
+	WHERE S_ID={sid}
+	 """) 
+
+	result = cur.fetchone()	
+
+	cnx.commit()
+	cnx.close()
+
+	return result
+
+
+def get_emp( eid ):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	cur.execute(f"""
+	SELECT * FROM EMPLOYEE
+	WHERE E_ID={eid}
+	 """) 
+
+	result = cur.fetchone()	
+
+	cnx.commit()
+	cnx.close()
+
+	return result
+
+def get_ret( rid ):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	cur.execute(f"""
+	SELECT * FROM SUPPLIER
+	WHERE R_ID={rid}
+	 """) 
+
+	result = cur.fetchone()	
+
+	cnx.commit()
+	cnx.close()
+
+	return result

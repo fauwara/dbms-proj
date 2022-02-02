@@ -11,7 +11,14 @@
 # to switch tabs: {your QPushButton}.clicked.connect(lambda: self.stackedWidget}.setCurrentIndex({another page}))
 
 
+from sre_constants import SUCCESS
 from PyQt5 import QtCore, QtGui, QtWidgets
+import backend
+
+token = {
+    'id': '',
+    'role' : '',
+}
 
 
 class Ui_MainWindow(object):
@@ -68,6 +75,7 @@ class Ui_MainWindow(object):
         self.lineEdit_Username = QtWidgets.QLineEdit(self.verticalLayoutWidget_Login)
         self.lineEdit_Username.setMinimumSize(QtCore.QSize(0, 40))
         self.lineEdit_Username.setFont(font_10)
+        self.lineEdit_Username.setStyleSheet(form_ss)
         self.lineEdit_Username.setObjectName("lineEdit_Username")
         self.verticalLayout_Login.addWidget(self.lineEdit_Username)
         
@@ -99,10 +107,9 @@ class Ui_MainWindow(object):
         self.pushButton_Login.setMinimumSize(QtCore.QSize(0, 40))
         self.pushButton_Login.setFont(font_10)
         self.pushButton_Login.setObjectName("pushButton_Login")
-        self.pushButton_Login.clicked.connect(self.print_h)
+        self.pushButton_Login.clicked.connect(self.login_)
         self.verticalLayout_Login.addWidget(self.pushButton_Login)
 
-        
         # horizontal line
         self.hr = QtWidgets.QFrame(self.verticalLayoutWidget_Login)
         self.hr.setFrameShape(QtWidgets.QFrame.HLine)
@@ -236,6 +243,7 @@ class Ui_MainWindow(object):
         self.pushButton_13 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
         self.pushButton_13.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_13.setObjectName("pushButton_13")
+        # self.pushButton_13.clicked.connect(self.get_items)
         self.horizontalLayout_20.addWidget(self.pushButton_13)
         
         self.pushButton_16 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
@@ -246,6 +254,7 @@ class Ui_MainWindow(object):
         self.pushButton_26 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
         self.pushButton_26.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_26.setObjectName("pushButton_26")
+        self.pushButton_26.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(11)) 
         self.horizontalLayout_20.addWidget(self.pushButton_26)
         
         self.stackedWidget.addWidget(self.page_2)
@@ -783,49 +792,65 @@ class Ui_MainWindow(object):
         self.pushButton_14.setObjectName("pushButton_14")
         self.horizontalLayout_22.addWidget(self.pushButton_14)
         self.stackedWidget.addWidget(self.page_4)
+        
+        ######################################################################################## ITEMS ############################################################################
+        
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
+        
         self.horizontalLayoutWidget_4 = QtWidgets.QWidget(self.page)
         self.horizontalLayoutWidget_4.setGeometry(QtCore.QRect(20, 10, 761, 61))
         self.horizontalLayoutWidget_4.setObjectName("horizontalLayoutWidget_4")
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_4)
         self.horizontalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        
         self.label_10 = QtWidgets.QLabel(self.horizontalLayoutWidget_4)
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.label_10.setFont(font)
+        self.label_10.setFont(font_10)
         self.label_10.setObjectName("label_10")
         self.horizontalLayout_8.addWidget(self.label_10)
+        
         self.pushButton_5 = QtWidgets.QPushButton(self.horizontalLayoutWidget_4)
         self.pushButton_5.setMaximumSize(QtCore.QSize(200, 40))
         self.pushButton_5.setObjectName("pushButton_5")
+        self.pushButton_5.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
         self.horizontalLayout_8.addWidget(self.pushButton_5)
+        
         self.tableView = QtWidgets.QTableView(self.page)
         self.tableView.setGeometry(QtCore.QRect(20, 90, 761, 471))
         self.tableView.setShowGrid(True)
         self.tableView.setObjectName("tableView")
         self.stackedWidget.addWidget(self.page)
+        
+
+        ############################################################ SUPPLIER DASHBOARD ###########################################3
         self.page_5 = QtWidgets.QWidget()
         self.page_5.setObjectName("page_5")
+        
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.page_5)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 470, 741, 80))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        
+        # ADD NEW STOCK
         self.pushButton_7 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.pushButton_7.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_7.setObjectName("pushButton_7")
+        self.pushButton_7.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(6))
         self.horizontalLayout_4.addWidget(self.pushButton_7)
+        
         self.pushButton_8 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.pushButton_8.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_8.setObjectName("pushButton_8")
         self.horizontalLayout_4.addWidget(self.pushButton_8)
+        
         self.pushButton_27 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.pushButton_27.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_27.setObjectName("pushButton_27")
         self.horizontalLayout_4.addWidget(self.pushButton_27)
+        
         self.horizontalLayoutWidget_3 = QtWidgets.QWidget(self.page_5)
         self.horizontalLayoutWidget_3.setGeometry(QtCore.QRect(20, 20, 761, 135))
         self.horizontalLayoutWidget_3.setObjectName("horizontalLayoutWidget_3")
@@ -847,7 +872,7 @@ class Ui_MainWindow(object):
         self.label_25 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.label_25.setFont(font)
+        self.label_25.setFont(font_10)
         self.label_25.setObjectName("label_25")
         self.verticalLayout_6.addWidget(self.label_25)
         self.label_26 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
@@ -895,7 +920,7 @@ class Ui_MainWindow(object):
         self.page_6.setObjectName("page_6")
         
         self.verticalLayoutWidget_6 = QtWidgets.QWidget(self.page_6)
-        self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(250, 120, 278, 366))
+        self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(250, 90, 300, 400))
         self.verticalLayoutWidget_6.setObjectName("verticalLayoutWidget_6")
         self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_6)
         self.verticalLayout_19.setContentsMargins(0, 0, 0, 0)
@@ -946,6 +971,16 @@ class Ui_MainWindow(object):
         self.lineEdit_6.setObjectName("lineEdit_6")
         self.verticalLayout_19.addWidget(self.lineEdit_6)
         
+        # phone line edit signup
+        self.lineEdit_pno = QtWidgets.QLineEdit(self.verticalLayoutWidget_6)
+        self.lineEdit_pno.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_pno.setFont(font_10)
+        self.lineEdit_pno.setStyleSheet("padding: 0px 10px")
+        # self.lineEdit_6.setInputMask("")
+        # self.lineEdit_6.setText("")
+        self.lineEdit_pno.setObjectName("lineEdit_6")
+        self.verticalLayout_19.addWidget(self.lineEdit_pno)
+        
         # role combo box signup
         self.comboBox_2 = QtWidgets.QComboBox(self.verticalLayoutWidget_6)
         self.comboBox_2.setMinimumSize(QtCore.QSize(0, 40))
@@ -961,10 +996,16 @@ class Ui_MainWindow(object):
         self.pushButton_22.setMinimumSize(QtCore.QSize(0, 40))
         self.pushButton_22.setFont(font_10)
         self.pushButton_22.setObjectName("pushButton_22")
+        self.pushButton_22.clicked.connect(self.signup_)
         self.verticalLayout_19.addWidget(self.pushButton_22)
         
         # hr
-        self.verticalLayout_19.addWidget(self.hr)
+        self.hr2 = QtWidgets.QFrame(self.verticalLayoutWidget_Login)
+        self.hr2.setFrameShape(QtWidgets.QFrame.HLine)
+        self.hr2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.hr2.setObjectName("hr")
+        # self.verticalLayout_Login.addWidget(self.hr)
+        self.verticalLayout_19.addWidget(self.hr2)
 
         # login page
         self.pushButton_17 = QtWidgets.QPushButton(self.verticalLayoutWidget_6)
@@ -976,74 +1017,71 @@ class Ui_MainWindow(object):
         
         self.stackedWidget.addWidget(self.page_6)
         
-        
+        ####################################################################################### ADD NEW STOCK #####################################################
         self.page_7 = QtWidgets.QWidget()
         self.page_7.setObjectName("page_7")
+        
         self.verticalLayoutWidget_7 = QtWidgets.QWidget(self.page_7)
-        self.verticalLayoutWidget_7.setGeometry(QtCore.QRect(260, 180, 251, 274))
+        self.verticalLayoutWidget_7.setGeometry(QtCore.QRect(260, 150, 250, 350))
         self.verticalLayoutWidget_7.setObjectName("verticalLayoutWidget_7")
         self.verticalLayout_21 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_7)
         self.verticalLayout_21.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_21.setObjectName("verticalLayout_21")
+        
         self.label_29 = QtWidgets.QLabel(self.verticalLayoutWidget_7)
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.label_29.setFont(font)
+        self.label_29.setFont(font_20)
         self.label_29.setObjectName("label_29")
         self.verticalLayout_21.addWidget(self.label_29)
+        
         self.lineEdit_7 = QtWidgets.QLineEdit(self.verticalLayoutWidget_7)
         self.lineEdit_7.setMinimumSize(QtCore.QSize(0, 40))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.lineEdit_7.setFont(font)
+        self.lineEdit_7.setFont(font_10)
         self.lineEdit_7.setStyleSheet("padding: 0px 10px")
-        self.lineEdit_7.setInputMask("")
-        self.lineEdit_7.setText("")
         self.lineEdit_7.setObjectName("lineEdit_7")
         self.verticalLayout_21.addWidget(self.lineEdit_7)
+        
         self.lineEdit_8 = QtWidgets.QLineEdit(self.verticalLayoutWidget_7)
         self.lineEdit_8.setMinimumSize(QtCore.QSize(0, 40))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.lineEdit_8.setFont(font)
-        self.lineEdit_8.setAutoFillBackground(False)
+        self.lineEdit_8.setFont(font_10)
         self.lineEdit_8.setStyleSheet("padding: 0px 10px")
-        self.lineEdit_8.setInputMethodHints(QtCore.Qt.ImhHiddenText|QtCore.Qt.ImhNoAutoUppercase|QtCore.Qt.ImhNoPredictiveText|QtCore.Qt.ImhSensitiveData)
-        self.lineEdit_8.setInputMask("")
-        self.lineEdit_8.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.lineEdit_8.setClearButtonEnabled(False)
         self.lineEdit_8.setObjectName("lineEdit_8")
         self.verticalLayout_21.addWidget(self.lineEdit_8)
+        
         self.lineEdit_9 = QtWidgets.QLineEdit(self.verticalLayoutWidget_7)
         self.lineEdit_9.setMinimumSize(QtCore.QSize(0, 40))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.lineEdit_9.setFont(font)
+        self.lineEdit_9.setFont(font_10)
         self.lineEdit_9.setStyleSheet("padding: 0px 10px")
-        self.lineEdit_9.setInputMask("")
-        self.lineEdit_9.setText("")
         self.lineEdit_9.setObjectName("lineEdit_9")
         self.verticalLayout_21.addWidget(self.lineEdit_9)
+        
+        self.rcv_date = QtWidgets.QDateEdit(self.verticalLayoutWidget_7)
+        self.rcv_date.setMinimumSize(QtCore.QSize(0, 40))
+        self.verticalLayout_21.addWidget(self.rcv_date)
+
         self.pushButton_23 = QtWidgets.QPushButton(self.verticalLayoutWidget_7)
         self.pushButton_23.setMinimumSize(QtCore.QSize(0, 40))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.pushButton_23.setFont(font)
+        self.pushButton_23.setFont(font_10)
         self.pushButton_23.setObjectName("pushButton_23")
+        self.pushButton_23.clicked.connect(self.add_new_item)
         self.verticalLayout_21.addWidget(self.pushButton_23)
+        
         self.line = QtWidgets.QFrame(self.verticalLayoutWidget_7)
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.verticalLayout_21.addWidget(self.line)
+        
         self.pushButton_28 = QtWidgets.QPushButton(self.verticalLayoutWidget_7)
         self.pushButton_28.setMinimumSize(QtCore.QSize(0, 40))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.pushButton_28.setFont(font)
+        self.pushButton_28.setFont(font_10)
+        self.pushButton_28.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
         self.pushButton_28.setObjectName("pushButton_28")
+        
         self.verticalLayout_21.addWidget(self.pushButton_28)
         self.stackedWidget.addWidget(self.page_7)
+        
+        
+        #############################################################################
         self.page_8 = QtWidgets.QWidget()
         self.page_8.setObjectName("page_8")
         self.verticalLayoutWidget_4 = QtWidgets.QWidget(self.page_8)
@@ -1690,6 +1728,7 @@ class Ui_MainWindow(object):
         self.lineEdit_4.setPlaceholderText(_translate("MainWindow", "PASSWORD"))
         self.lineEdit_3.setPlaceholderText(_translate("MainWindow", "NAME"))
         self.lineEdit_6.setPlaceholderText(_translate("MainWindow", "EMAIL"))
+        self.lineEdit_pno.setPlaceholderText(_translate("MainWindow", "PHONE NO."))
         self.comboBox_2.setItemText(0, _translate("MainWindow", "SUPPLIER"))
         self.comboBox_2.setItemText(1, _translate("MainWindow", "RETAILER"))
         self.pushButton_22.setText(_translate("MainWindow", "SIGN UP"))
@@ -1757,8 +1796,103 @@ class Ui_MainWindow(object):
         self.label_21.setText(_translate("MainWindow", "Receive Date:"))
         self.pushButton_33.setText(_translate("MainWindow", "HOME"))
 
-    def print_h(self):
-        print('text')
+    ######################################################################## LOGIC ##########################################
+    ######################################################################## LOGIN ##########################################
+
+    def login_(self):
+
+        role = self.comboBox_Role.currentText()
+        user_data = {
+            'username': self.lineEdit_Username.text(),
+            'password': self.lineEdit_Password.text(),
+        }
+
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("LOGIN FAILED!")
+        msg.setText('INVALID USERNAME OR PASSWORD')
+        msg.setIcon(QtWidgets.QMessageBox.Critical)
+
+        if role == 'SUPPLIER':
+            if backend.login_supplier( user_data ):
+                self.stackedWidget.setCurrentIndex(4)
+                token['id'] = user_data['username']
+            else:
+                msg.exec_()
+        
+        elif role == 'RETAILER':
+            if backend.login_retailer( user_data ):
+                self.stackedWidget.setCurrentIndex(8)
+                token['id'] = user_data['username']
+            else:
+                msg.exec_()
+
+        else:
+            if backend.login_employee( user_data ):
+                self.stackedWidget.setCurrentIndex(0)
+                token['id'] = user_data['username']
+            else:
+                msg.exec_()
+
+    ######################################################################## SIGN UP ##########################################
+    def signup_(self):
+        
+        role = self.comboBox_2.currentText()
+        user_data = {
+            'username': self.lineEdit_5.text(),
+            'password': self.lineEdit_4.text(),
+            'name': self.lineEdit_3.text(),
+            'email': self.lineEdit_6.text(),
+            'phone': self.lineEdit_pno.text(),
+        }
+
+        success_msg = f""" ADDED USER:
+            username: {user_data['username']} \n
+            name: {user_data['name']} \n
+            email: {user_data['email']} \n
+            phone: {user_data['phone']} \n
+        """
+
+        fail_msg = "FAILED TO ADD USER!"
+
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("SIGNUP!")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+
+        if role == 'SUPPLIER':
+            if backend.add_new_supplier( user_data ):
+                msg.setText(success_msg)
+                msg.exec_()
+            else:
+                msg.setText(fail_msg)
+                msg.exec_()
+    
+        else:
+            if backend.add_new_retailer( user_data ):
+                msg.setText(success_msg)
+                msg.exec_()
+            else:
+                msg.setText(fail_msg)
+                msg.exec_()
+
+    def get_items(self):
+            pass
+
+    def add_new_item(self):
+        order_data = {
+            's_id': token['id'],
+            'rcv_date': self.rcv_date.date()
+        }
+            
+        item_data = {
+            'name': self.lineEdit_7.text(),
+            'price': self.lineEdit_8.text(),
+            'quantity': self.lineEdit_9.text(),
+        }
+
+        backend.add_new_item( order_data, item_data )
+        # print(order_data)
+
 
 
 if __name__ == "__main__":
