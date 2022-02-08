@@ -38,7 +38,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>11</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="LoginPage">
      <widget class="QWidget" name="verticalLayoutWidget_5">

@@ -11,7 +11,6 @@
 # to switch tabs: {your QPushButton}.clicked.connect(lambda: self.stackedWidget}.setCurrentIndex({another page}))
 
 
-from sre_constants import SUCCESS
 from PyQt5 import QtCore, QtGui, QtWidgets
 import backend
 
@@ -20,6 +19,30 @@ token = {
     'role' : '',
 }
 
+####################################################################### PAGE INDEXES ######################################################
+
+loginIndex = 14
+employeeDashboardIndex = 0
+supplierOrdersIndex = 2
+itemsPageIndex_employee = 3
+supplierDashboardIndex = 4
+signupIndex = 5
+addNewStockIndex = 6
+retailerDashboardIndex = 8
+addEmployeeIndex = 11
+viewEmployeePageIndex = 12
+restockPageIndex = 13
+
+######################################################################## FONT ##############################################
+
+font_10 = QtGui.QFont()
+font_10.setPointSize(10)
+
+font_14 = QtGui.QFont()
+font_14.setPointSize(14)
+
+font_20 = QtGui.QFont()
+font_20.setPointSize(20)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -40,14 +63,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.setObjectName("stackedWidget")
         
         ####################################################################### FONT ######################################################################################
-        font_10 = QtGui.QFont()
-        font_10.setPointSize(10)
-
-        font_14 = QtGui.QFont()
-        font_14.setPointSize(14)
-
-        font_20 = QtGui.QFont()
-        font_20.setPointSize(20)
 
         ####################################################################### STYLE SHEET ###############################################################################
 
@@ -122,7 +137,7 @@ class Ui_MainWindow(object):
         self.pushButton_Signup.setMinimumSize(QtCore.QSize(0, 40))
         self.pushButton_Signup.setFont(font_10)
         self.pushButton_Signup.setObjectName("pushButton_Signup")
-        self.pushButton_Signup.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(5))
+        self.pushButton_Signup.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(signupIndex))
         self.verticalLayout_Login.addWidget(self.pushButton_Signup)
         # self.stackedWidget.addWidget(self.LoginPage)
 
@@ -140,7 +155,7 @@ class Ui_MainWindow(object):
         
         # group box employee details
         self.groupBox = QtWidgets.QGroupBox(self.horizontalLayoutWidget_2)
-        self.groupBox.setFont(font_10)
+        self.groupBox.setFont(font_14)
         self.groupBox.setObjectName("groupBox")
         
         self.verticalLayoutWidget = QtWidgets.QWidget(self.groupBox)
@@ -186,7 +201,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.addWidget(self.label_5)
         
         self.label_6 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_6.setFont(font_10)
+        self.label_6.setFont(font_14)
         self.label_6.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_6.setObjectName("label_6")
         
@@ -233,6 +248,7 @@ class Ui_MainWindow(object):
         self.pushButton_11 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
         self.pushButton_11.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_11.setObjectName("pushButton_11")
+        self.pushButton_11.clicked.connect(self.supplier_orders)
         self.horizontalLayout_20.addWidget(self.pushButton_11)
         
         self.pushButton_12 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
@@ -243,23 +259,29 @@ class Ui_MainWindow(object):
         self.pushButton_13 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
         self.pushButton_13.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_13.setObjectName("pushButton_13")
-        # self.pushButton_13.clicked.connect(self.get_items)
+        self.pushButton_13.clicked.connect(self.get_items)
         self.horizontalLayout_20.addWidget(self.pushButton_13)
         
         self.pushButton_16 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
         self.pushButton_16.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_16.setObjectName("pushButton_16")
+        self.pushButton_16.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(addEmployeeIndex))
         self.horizontalLayout_20.addWidget(self.pushButton_16)
+        
+        self.pushButton_vep = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
+        self.pushButton_vep.setMinimumSize(QtCore.QSize(0, 50))
+        self.pushButton_vep.setText('VIEW EMPLOYEES')
+        self.pushButton_vep.clicked.connect(self.viewEmployee)
+        self.horizontalLayout_20.addWidget(self.pushButton_vep)
         
         self.pushButton_26 = QtWidgets.QPushButton(self.horizontalLayoutWidget_6)
         self.pushButton_26.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_26.setObjectName("pushButton_26")
-        self.pushButton_26.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(11)) 
+        self.pushButton_26.clicked.connect(self.logout) 
         self.horizontalLayout_20.addWidget(self.pushButton_26)
         
         self.stackedWidget.addWidget(self.page_2)
 
-        
         ####################################################################### EMPLOYEE RETAILER ORDERS ################################################################################
         self.page_3 = QtWidgets.QWidget()
         self.page_3.setObjectName("page_3")
@@ -549,234 +571,30 @@ class Ui_MainWindow(object):
         self.horizontalLayout_23.addWidget(self.pushButton_15)
         self.stackedWidget.addWidget(self.page_3)
         
-        
+        ########################################################################### SUPPLIER ORDERS ####################################################
         self.page_4 = QtWidgets.QWidget()
         self.page_4.setObjectName("page_4")
-        self.scrollArea_3 = QtWidgets.QScrollArea(self.page_4)
-        self.scrollArea_3.setGeometry(QtCore.QRect(20, 70, 761, 491))
-        self.scrollArea_3.setWidgetResizable(True)
-        self.scrollArea_3.setObjectName("scrollArea_3")
-        self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 759, 489))
-        self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
-        self.verticalLayout_17 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
-        self.verticalLayout_17.setObjectName("verticalLayout_17")
-        self.widget_9 = QtWidgets.QWidget(self.scrollAreaWidgetContents_3)
-        self.widget_9.setMinimumSize(QtCore.QSize(0, 0))
-        self.widget_9.setStyleSheet("background-color: pink")
-        self.widget_9.setObjectName("widget_9")
-        self.horizontalLayout_31 = QtWidgets.QHBoxLayout(self.widget_9)
-        self.horizontalLayout_31.setObjectName("horizontalLayout_31")
-        self.verticalLayout_18 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_18.setObjectName("verticalLayout_18")
-        self.label_91 = QtWidgets.QLabel(self.widget_9)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.label_91.setFont(font)
-        self.label_91.setObjectName("label_91")
-        self.verticalLayout_18.addWidget(self.label_91)
-        self.label_121 = QtWidgets.QLabel(self.widget_9)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_121.setFont(font)
-        self.label_121.setObjectName("label_121")
-        self.verticalLayout_18.addWidget(self.label_121)
-        self.label_122 = QtWidgets.QLabel(self.widget_9)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_122.setFont(font)
-        self.label_122.setObjectName("label_122")
-        self.verticalLayout_18.addWidget(self.label_122)
-        self.label_123 = QtWidgets.QLabel(self.widget_9)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.label_123.setFont(font)
-        self.label_123.setObjectName("label_123")
-        self.verticalLayout_18.addWidget(self.label_123)
-        self.horizontalLayout_32 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_32.setObjectName("horizontalLayout_32")
-        self.pushButton_18 = QtWidgets.QPushButton(self.widget_9)
-        self.pushButton_18.setMinimumSize(QtCore.QSize(0, 30))
-        self.pushButton_18.setObjectName("pushButton_18")
-        self.horizontalLayout_32.addWidget(self.pushButton_18)
-        self.pushButton_19 = QtWidgets.QPushButton(self.widget_9)
-        self.pushButton_19.setMinimumSize(QtCore.QSize(0, 30))
-        self.pushButton_19.setObjectName("pushButton_19")
-        self.horizontalLayout_32.addWidget(self.pushButton_19)
-        self.verticalLayout_18.addLayout(self.horizontalLayout_32)
-        self.horizontalLayout_31.addLayout(self.verticalLayout_18)
-        self.verticalLayout_26 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_26.setObjectName("verticalLayout_26")
-        self.label_124 = QtWidgets.QLabel(self.widget_9)
-        self.label_124.setMaximumSize(QtCore.QSize(16777215, 30))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.label_124.setFont(font)
-        self.label_124.setObjectName("label_124")
-        self.verticalLayout_26.addWidget(self.label_124)
-        self.horizontalLayout_33 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_33.setObjectName("horizontalLayout_33")
-        self.label_125 = QtWidgets.QLabel(self.widget_9)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_125.setFont(font)
-        self.label_125.setObjectName("label_125")
-        self.horizontalLayout_33.addWidget(self.label_125)
-        self.label_126 = QtWidgets.QLabel(self.widget_9)
-        self.label_126.setObjectName("label_126")
-        self.horizontalLayout_33.addWidget(self.label_126)
-        self.label_127 = QtWidgets.QLabel(self.widget_9)
-        self.label_127.setObjectName("label_127")
-        self.horizontalLayout_33.addWidget(self.label_127)
-        self.label_128 = QtWidgets.QLabel(self.widget_9)
-        self.label_128.setObjectName("label_128")
-        self.horizontalLayout_33.addWidget(self.label_128)
-        self.verticalLayout_26.addLayout(self.horizontalLayout_33)
-        self.horizontalLayout_34 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_34.setObjectName("horizontalLayout_34")
-        self.label_129 = QtWidgets.QLabel(self.widget_9)
-        self.label_129.setObjectName("label_129")
-        self.horizontalLayout_34.addWidget(self.label_129)
-        self.label_130 = QtWidgets.QLabel(self.widget_9)
-        self.label_130.setObjectName("label_130")
-        self.horizontalLayout_34.addWidget(self.label_130)
-        self.label_131 = QtWidgets.QLabel(self.widget_9)
-        self.label_131.setObjectName("label_131")
-        self.horizontalLayout_34.addWidget(self.label_131)
-        self.label_132 = QtWidgets.QLabel(self.widget_9)
-        self.label_132.setObjectName("label_132")
-        self.horizontalLayout_34.addWidget(self.label_132)
-        self.verticalLayout_26.addLayout(self.horizontalLayout_34)
-        self.horizontalLayout_35 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_35.setObjectName("horizontalLayout_35")
-        self.label_133 = QtWidgets.QLabel(self.widget_9)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_133.setFont(font)
-        self.label_133.setObjectName("label_133")
-        self.horizontalLayout_35.addWidget(self.label_133)
-        self.label_134 = QtWidgets.QLabel(self.widget_9)
-        self.label_134.setObjectName("label_134")
-        self.horizontalLayout_35.addWidget(self.label_134)
-        self.label_135 = QtWidgets.QLabel(self.widget_9)
-        self.label_135.setObjectName("label_135")
-        self.horizontalLayout_35.addWidget(self.label_135)
-        self.label_136 = QtWidgets.QLabel(self.widget_9)
-        self.label_136.setObjectName("label_136")
-        self.horizontalLayout_35.addWidget(self.label_136)
-        self.verticalLayout_26.addLayout(self.horizontalLayout_35)
-        self.horizontalLayout_31.addLayout(self.verticalLayout_26)
-        self.verticalLayout_17.addWidget(self.widget_9)
-        self.widget_10 = QtWidgets.QWidget(self.scrollAreaWidgetContents_3)
-        self.widget_10.setMinimumSize(QtCore.QSize(0, 0))
-        self.widget_10.setStyleSheet("background-color: pink")
-        self.widget_10.setObjectName("widget_10")
-        self.horizontalLayout_36 = QtWidgets.QHBoxLayout(self.widget_10)
-        self.horizontalLayout_36.setObjectName("horizontalLayout_36")
-        self.verticalLayout_27 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_27.setObjectName("verticalLayout_27")
-        self.label_137 = QtWidgets.QLabel(self.widget_10)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.label_137.setFont(font)
-        self.label_137.setObjectName("label_137")
-        self.verticalLayout_27.addWidget(self.label_137)
-        self.label_139 = QtWidgets.QLabel(self.widget_10)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_139.setFont(font)
-        self.label_139.setObjectName("label_139")
-        self.verticalLayout_27.addWidget(self.label_139)
-        self.label_140 = QtWidgets.QLabel(self.widget_10)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_140.setFont(font)
-        self.label_140.setObjectName("label_140")
-        self.verticalLayout_27.addWidget(self.label_140)
-        self.label_141 = QtWidgets.QLabel(self.widget_10)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.label_141.setFont(font)
-        self.label_141.setObjectName("label_141")
-        self.verticalLayout_27.addWidget(self.label_141)
-        self.horizontalLayout_37 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_37.setObjectName("horizontalLayout_37")
-        self.pushButton_20 = QtWidgets.QPushButton(self.widget_10)
-        self.pushButton_20.setMinimumSize(QtCore.QSize(0, 30))
-        self.pushButton_20.setObjectName("pushButton_20")
-        self.horizontalLayout_37.addWidget(self.pushButton_20)
-        self.pushButton_21 = QtWidgets.QPushButton(self.widget_10)
-        self.pushButton_21.setMinimumSize(QtCore.QSize(0, 30))
-        self.pushButton_21.setObjectName("pushButton_21")
-        self.horizontalLayout_37.addWidget(self.pushButton_21)
-        self.verticalLayout_27.addLayout(self.horizontalLayout_37)
-        self.horizontalLayout_36.addLayout(self.verticalLayout_27)
-        self.verticalLayout_28 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_28.setObjectName("verticalLayout_28")
-        self.label_142 = QtWidgets.QLabel(self.widget_10)
-        self.label_142.setMaximumSize(QtCore.QSize(16777215, 30))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.label_142.setFont(font)
-        self.label_142.setObjectName("label_142")
-        self.verticalLayout_28.addWidget(self.label_142)
-        self.horizontalLayout_38 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_38.setObjectName("horizontalLayout_38")
-        self.label_143 = QtWidgets.QLabel(self.widget_10)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_143.setFont(font)
-        self.label_143.setObjectName("label_143")
-        self.horizontalLayout_38.addWidget(self.label_143)
-        self.label_144 = QtWidgets.QLabel(self.widget_10)
-        self.label_144.setObjectName("label_144")
-        self.horizontalLayout_38.addWidget(self.label_144)
-        self.label_145 = QtWidgets.QLabel(self.widget_10)
-        self.label_145.setObjectName("label_145")
-        self.horizontalLayout_38.addWidget(self.label_145)
-        self.label_146 = QtWidgets.QLabel(self.widget_10)
-        self.label_146.setObjectName("label_146")
-        self.horizontalLayout_38.addWidget(self.label_146)
-        self.verticalLayout_28.addLayout(self.horizontalLayout_38)
-        self.horizontalLayout_39 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_39.setObjectName("horizontalLayout_39")
-        self.label_147 = QtWidgets.QLabel(self.widget_10)
-        self.label_147.setObjectName("label_147")
-        self.horizontalLayout_39.addWidget(self.label_147)
-        self.label_148 = QtWidgets.QLabel(self.widget_10)
-        self.label_148.setObjectName("label_148")
-        self.horizontalLayout_39.addWidget(self.label_148)
-        self.label_149 = QtWidgets.QLabel(self.widget_10)
-        self.label_149.setObjectName("label_149")
-        self.horizontalLayout_39.addWidget(self.label_149)
-        self.label_150 = QtWidgets.QLabel(self.widget_10)
-        self.label_150.setObjectName("label_150")
-        self.horizontalLayout_39.addWidget(self.label_150)
-        self.verticalLayout_28.addLayout(self.horizontalLayout_39)
-        self.horizontalLayout_40 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_40.setObjectName("horizontalLayout_40")
-        self.label_151 = QtWidgets.QLabel(self.widget_10)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_151.setFont(font)
-        self.label_151.setObjectName("label_151")
-        self.horizontalLayout_40.addWidget(self.label_151)
-        self.label_152 = QtWidgets.QLabel(self.widget_10)
-        self.label_152.setObjectName("label_152")
-        self.horizontalLayout_40.addWidget(self.label_152)
-        self.label_153 = QtWidgets.QLabel(self.widget_10)
-        self.label_153.setObjectName("label_153")
-        self.horizontalLayout_40.addWidget(self.label_153)
-        self.label_154 = QtWidgets.QLabel(self.widget_10)
-        self.label_154.setObjectName("label_154")
-        self.horizontalLayout_40.addWidget(self.label_154)
-        self.verticalLayout_28.addLayout(self.horizontalLayout_40)
-        self.horizontalLayout_36.addLayout(self.verticalLayout_28)
-        self.verticalLayout_17.addWidget(self.widget_10)
-        self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_3)
+        
+        self.tableWidget_so = QtWidgets.QTableWidget(self.page_4)
+        self.tableWidget_so.setGeometry(QtCore.QRect(20, 90, 761, 425))
+        self.tableWidget_so.setShowGrid(True)
+
+        # self.scrollArea_3 = QtWidgets.QScrollArea(self.page_4)
+        # self.scrollArea_3.setGeometry(QtCore.QRect(20, 70, 761, 450))
+        # self.scrollArea_3.setWidgetResizable(True)
+        # self.scrollArea_3.setObjectName("scrollArea_3")
+        # self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
+        # self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 759, 448))
+        # self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
+        
+        # self.verticalLayout_17 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
+        # self.verticalLayout_17.setObjectName("verticalLayout_17")
+        # self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_3)
+        
         self.horizontalLayoutWidget_7 = QtWidgets.QWidget(self.page_4)
         self.horizontalLayoutWidget_7.setGeometry(QtCore.QRect(20, 20, 761, 42))
         self.horizontalLayoutWidget_7.setObjectName("horizontalLayoutWidget_7")
+        
         self.horizontalLayout_22 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_7)
         self.horizontalLayout_22.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_22.setObjectName("horizontalLayout_22")
@@ -790,7 +608,25 @@ class Ui_MainWindow(object):
         self.pushButton_14.setMinimumSize(QtCore.QSize(0, 40))
         self.pushButton_14.setMaximumSize(QtCore.QSize(200, 40))
         self.pushButton_14.setObjectName("pushButton_14")
+        self.pushButton_14.clicked.connect(self.sendHome)
         self.horizontalLayout_22.addWidget(self.pushButton_14)
+
+        self.horizontalLayoutWidget_od_2 = QtWidgets.QWidget(self.page_4)
+        self.horizontalLayoutWidget_od_2.setGeometry(QtCore.QRect(20, 525, 761, 50))
+        self.horizontalLayout_od_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_od_2)
+        self.horizontalLayout_od_2.setContentsMargins(0, 0, 0, 0)
+
+        self.lineEdit_od = QtWidgets.QLineEdit(self.horizontalLayoutWidget_od_2)
+        self.lineEdit_od.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_od.setPlaceholderText('ENTER ORDER ID')
+        self.horizontalLayout_od_2.addWidget(self.lineEdit_od)
+
+        self.pushButton_od = QtWidgets.QPushButton(self.horizontalLayoutWidget_od_2)
+        self.pushButton_od.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_od.setText("DECLINE ORDER")
+        self.pushButton_od.clicked.connect(self.del_order_s)
+        self.horizontalLayout_od_2.addWidget(self.pushButton_od)
+
         self.stackedWidget.addWidget(self.page_4)
         
         ######################################################################################## ITEMS ############################################################################
@@ -813,17 +649,33 @@ class Ui_MainWindow(object):
         self.pushButton_5 = QtWidgets.QPushButton(self.horizontalLayoutWidget_4)
         self.pushButton_5.setMaximumSize(QtCore.QSize(200, 40))
         self.pushButton_5.setObjectName("pushButton_5")
-        self.pushButton_5.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
+        self.pushButton_5.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(employeeDashboardIndex))
         self.horizontalLayout_8.addWidget(self.pushButton_5)
         
-        self.tableView = QtWidgets.QTableView(self.page)
-        self.tableView.setGeometry(QtCore.QRect(20, 90, 761, 471))
-        self.tableView.setShowGrid(True)
-        self.tableView.setObjectName("tableView")
-        self.stackedWidget.addWidget(self.page)
-        
+        self.tableWidget = QtWidgets.QTableWidget(self.page)
+        self.tableWidget.setGeometry(QtCore.QRect(20, 90, 761, 425))
+        self.tableWidget.setShowGrid(True)
+        self.tableWidget.setObjectName("tableView")
 
-        ############################################################ SUPPLIER DASHBOARD ###########################################3
+        self.horizontalLayoutWidget_i_2 = QtWidgets.QWidget(self.page)
+        self.horizontalLayoutWidget_i_2.setGeometry(QtCore.QRect(20, 525, 761, 50))
+        self.horizontalLayout_i_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_i_2)
+        self.horizontalLayout_i_2.setContentsMargins(0, 0, 0, 0)
+        
+        self.lineEdit_i = QtWidgets.QLineEdit(self.horizontalLayoutWidget_i_2)
+        self.lineEdit_i.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_i.setPlaceholderText("ENTER ITEM ID")
+        self.horizontalLayout_i_2.addWidget(self.lineEdit_i)
+
+        self.pushButton_i = QtWidgets.QPushButton(self.horizontalLayoutWidget_i_2)
+        self.pushButton_i.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_i.setText("DELETE ITEM")
+        self.pushButton_i.clicked.connect(self.del_items)
+        self.horizontalLayout_i_2.addWidget(self.pushButton_i)
+
+        self.stackedWidget.addWidget(self.page)
+
+        ############################################################ SUPPLIER DASHBOARD ###########################################
         self.page_5 = QtWidgets.QWidget()
         self.page_5.setObjectName("page_5")
         
@@ -838,17 +690,25 @@ class Ui_MainWindow(object):
         self.pushButton_7 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.pushButton_7.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_7.setObjectName("pushButton_7")
-        self.pushButton_7.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(6))
+        self.pushButton_7.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(addNewStockIndex))
         self.horizontalLayout_4.addWidget(self.pushButton_7)
         
         self.pushButton_8 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.pushButton_8.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_8.setObjectName("pushButton_8")
+        self.pushButton_8.clicked.connect(self.restock)
         self.horizontalLayout_4.addWidget(self.pushButton_8)
+        
+        self.pushButton_vos = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.pushButton_vos.setMinimumSize(QtCore.QSize(0, 50))
+        self.pushButton_vos.setText('VIEW ORDERS')
+        self.pushButton_vos.clicked.connect(self.supplier_orders)
+        self.horizontalLayout_4.addWidget(self.pushButton_vos)
         
         self.pushButton_27 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.pushButton_27.setMinimumSize(QtCore.QSize(0, 50))
         self.pushButton_27.setObjectName("pushButton_27")
+        self.pushButton_27.clicked.connect(self.logout)
         self.horizontalLayout_4.addWidget(self.pushButton_27)
         
         self.horizontalLayoutWidget_3 = QtWidgets.QWidget(self.page_5)
@@ -857,57 +717,52 @@ class Ui_MainWindow(object):
         self.horizontalLayout_27 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_3)
         self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_27.setObjectName("horizontalLayout_27")
+        
         self.groupBox_7 = QtWidgets.QGroupBox(self.horizontalLayoutWidget_3)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.groupBox_7.setFont(font)
-        self.groupBox_7.setStyleSheet("")
+        self.groupBox_7.setFont(font_14)
         self.groupBox_7.setObjectName("groupBox_7")
+        
         self.verticalLayoutWidget_3 = QtWidgets.QWidget(self.groupBox_7)
         self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(30, 30, 191, 81))
         self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
+        
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
+        
         self.label_25 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
-        font = QtGui.QFont()
-        font.setPointSize(10)
         self.label_25.setFont(font_10)
         self.label_25.setObjectName("label_25")
         self.verticalLayout_6.addWidget(self.label_25)
+        
         self.label_26 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_26.setFont(font)
+        self.label_26.setFont(font_10)
         self.label_26.setObjectName("label_26")
         self.verticalLayout_6.addWidget(self.label_26)
+        
         self.label_27 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_27.setFont(font)
+        self.label_27.setFont(font_10)
         self.label_27.setObjectName("label_27")
         self.verticalLayout_6.addWidget(self.label_27)
         self.horizontalLayout_27.addWidget(self.groupBox_7)
+        
         self.groupBox_9 = QtWidgets.QGroupBox(self.horizontalLayoutWidget_3)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.groupBox_9.setFont(font)
+        self.groupBox_9.setFont(font_14)
         self.groupBox_9.setObjectName("groupBox_9")
+        
         self.horizontalLayout_29 = QtWidgets.QHBoxLayout(self.groupBox_9)
         self.horizontalLayout_29.setObjectName("horizontalLayout_29")
         self.verticalLayout_20 = QtWidgets.QVBoxLayout()
         self.verticalLayout_20.setObjectName("verticalLayout_20")
         self.label_30 = QtWidgets.QLabel(self.groupBox_9)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_30.setFont(font)
+        
+        self.label_30.setFont(font_10)
         self.label_30.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_30.setObjectName("label_30")
         self.verticalLayout_20.addWidget(self.label_30)
         self.label_31 = QtWidgets.QLabel(self.groupBox_9)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_31.setFont(font)
+        
+        self.label_31.setFont(font_10)
         self.label_31.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_31.setObjectName("label_31")
         self.verticalLayout_20.addWidget(self.label_31)
@@ -1012,7 +867,7 @@ class Ui_MainWindow(object):
         self.pushButton_17.setMinimumSize(QtCore.QSize(0, 40))
         self.pushButton_17.setFont(font_10)
         self.pushButton_17.setObjectName("pushButton_17")
-        self.pushButton_17.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(11))
+        self.pushButton_17.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(loginIndex))
         self.verticalLayout_19.addWidget(self.pushButton_17)
         
         self.stackedWidget.addWidget(self.page_6)
@@ -1074,7 +929,7 @@ class Ui_MainWindow(object):
         self.pushButton_28 = QtWidgets.QPushButton(self.verticalLayoutWidget_7)
         self.pushButton_28.setMinimumSize(QtCore.QSize(0, 40))
         self.pushButton_28.setFont(font_10)
-        self.pushButton_28.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
+        self.pushButton_28.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(supplierDashboardIndex))
         self.pushButton_28.setObjectName("pushButton_28")
         
         self.verticalLayout_21.addWidget(self.pushButton_28)
@@ -1227,8 +1082,16 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_8)
         self.page_9 = QtWidgets.QWidget()
         self.page_9.setObjectName("page_9")
-        self.groupBox_8 = QtWidgets.QGroupBox(self.page_9)
-        self.groupBox_8.setGeometry(QtCore.QRect(20, 20, 759, 125))
+
+        
+        self.horizontalLayoutWidget_re = QtWidgets.QWidget(self.page_9)
+        self.horizontalLayoutWidget_re.setGeometry(QtCore.QRect(20, 20, 759, 125))
+        
+        self.horizontalLayout_re = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_re)
+        self.horizontalLayout_re.setContentsMargins(0, 0, 0, 0)
+
+        self.groupBox_8 = QtWidgets.QGroupBox(self.horizontalLayoutWidget_re)
+        self.groupBox_8.setGeometry(QtCore.QRect(0, 0, 759, 125))
         self.groupBox_8.setMaximumSize(QtCore.QSize(16777215, 125))
         font = QtGui.QFont()
         font.setPointSize(14)
@@ -1259,6 +1122,31 @@ class Ui_MainWindow(object):
         self.label_58.setFont(font)
         self.label_58.setObjectName("label_58")
         self.verticalLayout_9.addWidget(self.label_58)
+
+        self.groupBox_re = QtWidgets.QGroupBox(self.horizontalLayoutWidget_re)
+        self.groupBox_re.setGeometry(QtCore.QRect(400, 0, 759, 125))
+        self.groupBox_re.setMaximumSize(QtCore.QSize(16777215, 125))
+        self.groupBox_re.setFont(font_14)
+        
+        self.verticalLayoutWidget_re = QtWidgets.QWidget(self.groupBox_re)
+        self.verticalLayoutWidget_re.setGeometry(QtCore.QRect(30, 30, 191, 81))
+        self.verticalLayoutWidget_re.setObjectName("verticalLayoutWidget_9")
+        self.verticalLayout_re = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_re)
+        self.verticalLayout_re.setContentsMargins(0, 0, 0, 0)
+        
+        self.label_re_1 = QtWidgets.QLabel(self.verticalLayoutWidget_re)
+        self.label_re_1.setFont(font_10)
+        self.verticalLayout_re.addWidget(self.label_re_1)
+        
+        self.label_re_2 = QtWidgets.QLabel(self.verticalLayoutWidget_re)
+        self.label_re_2.setFont(font_10)
+        # self.label_re_2.setMinimumSize(QtCore.QSize(0, 400))
+        self.verticalLayout_re.addWidget(self.label_re_2)
+        
+        self.label_re_3 = QtWidgets.QLabel(self.verticalLayoutWidget_re)
+        self.label_re_3.setFont(font_10)
+        # self.verticalLayout_9.addWidget(self.label_re_3)
+
         self.label_18 = QtWidgets.QLabel(self.page_9)
         self.label_18.setGeometry(QtCore.QRect(30, 162, 191, 21))
         font = QtGui.QFont()
@@ -1284,7 +1172,9 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.pushButton_30.setFont(font)
         self.pushButton_30.setObjectName("pushButton_30")
+        self.pushButton_30.clicked.connect(self.logout)
         self.horizontalLayout_5.addWidget(self.pushButton_30)
+        
         self.verticalLayoutWidget_8 = QtWidgets.QWidget(self.page_9)
         self.verticalLayoutWidget_8.setGeometry(QtCore.QRect(20, 190, 761, 321))
         self.verticalLayoutWidget_8.setObjectName("verticalLayoutWidget_8")
@@ -1578,11 +1468,184 @@ class Ui_MainWindow(object):
         self.pushButton_33.setMinimumSize(QtCore.QSize(0, 40))
         self.pushButton_33.setFont(font_10)
         self.pushButton_33.setObjectName("pushButton_33")
-        self.pushButton_33.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
+        self.pushButton_33.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(employeeDashboardIndex))
         self.verticalLayout_3.addWidget(self.pushButton_33)
 
         
         self.stackedWidget.addWidget(self.page_11)        
+
+        ################################################################################## ADD EMPLOYEE #######################################
+
+        self.addEmployee_page = QtWidgets.QWidget()
+        
+        self.verticalLayoutWidget_ae = QtWidgets.QWidget(self.addEmployee_page)
+        self.verticalLayoutWidget_ae.setGeometry(QtCore.QRect(250, 90, 300, 400))
+        self.verticalLayoutWidget_ae.setObjectName("verticalLayoutWidget_6")
+        self.verticalLayout_ae = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_ae)
+        self.verticalLayout_ae.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_ae.setObjectName("verticalLayout_19")
+        
+        self.label_ae = QtWidgets.QLabel(self.verticalLayoutWidget_ae)
+        self.label_ae.setFont(font_20)
+        self.label_ae.setObjectName("label_28")
+        self.verticalLayout_ae.addWidget(self.label_ae)
+        
+        # username line edit add employee
+        self.lineEdit_ae_1 = QtWidgets.QLineEdit(self.verticalLayoutWidget_ae)
+        self.lineEdit_ae_1.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_ae_1.setFont(font_10)
+        self.lineEdit_ae_1.setStyleSheet(form_ss)
+        self.verticalLayout_ae.addWidget(self.lineEdit_ae_1)
+        
+        # password line edit add employee
+        self.lineEdit_ae_2 = QtWidgets.QLineEdit(self.verticalLayoutWidget_ae)
+        self.lineEdit_ae_2.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_ae_2.setFont(font_10)
+        self.lineEdit_ae_2.setStyleSheet("padding: 0px 10px")
+        self.lineEdit_ae_2.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.lineEdit_ae_2.setClearButtonEnabled(False)
+        self.verticalLayout_ae.addWidget(self.lineEdit_ae_2)
+        
+        # name line edit add employee
+        self.lineEdit_ae_3 = QtWidgets.QLineEdit(self.verticalLayoutWidget_ae)
+        self.lineEdit_ae_3.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_ae_3.setFont(font_10)
+        self.lineEdit_ae_3.setStyleSheet("padding: 0px 10px")
+        self.verticalLayout_ae.addWidget(self.lineEdit_ae_3)
+        
+        # erole line edit add employee
+        self.lineEdit_ae_4 = QtWidgets.QLineEdit(self.verticalLayoutWidget_ae)
+        self.lineEdit_ae_4.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_ae_4.setFont(font_10)
+        self.lineEdit_ae_4.setStyleSheet("padding: 0px 10px")
+        self.verticalLayout_ae.addWidget(self.lineEdit_ae_4)
+        
+        # phone line edit signup
+        self.lineEdit_ae_5 = QtWidgets.QLineEdit(self.verticalLayoutWidget_ae)
+        self.lineEdit_ae_5.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_ae_5.setFont(font_10)
+        self.lineEdit_ae_5.setStyleSheet("padding: 0px 10px")
+        self.verticalLayout_ae.addWidget(self.lineEdit_ae_5)
+        
+        # signup pushbutton
+        self.pushButton_ae_7 = QtWidgets.QPushButton(self.verticalLayoutWidget_6)
+        self.pushButton_ae_7.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_ae_7.setFont(font_10)
+        self.pushButton_ae_7.clicked.connect(self.addEmployee)
+        self.verticalLayout_ae.addWidget(self.pushButton_ae_7)
+        
+        # hr
+        self.hr3 = QtWidgets.QFrame(self.verticalLayoutWidget_Login)
+        self.hr3.setFrameShape(QtWidgets.QFrame.HLine)
+        self.hr3.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.hr3.setObjectName("hr")
+        # self.verticalLayout_Login.addWidget(self.hr)
+        self.verticalLayout_ae.addWidget(self.hr3)
+
+        # login page
+        self.pushButton_ae_6 = QtWidgets.QPushButton(self.verticalLayoutWidget_ae)
+        self.pushButton_ae_6.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_ae_6.setFont(font_10)
+        self.pushButton_ae_6.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(employeeDashboardIndex))
+        self.verticalLayout_ae.addWidget(self.pushButton_ae_6)
+
+        self.stackedWidget.addWidget(self.addEmployee_page)
+
+        ################################################################################################## VIEW EMMPLOYEES ########################################
+
+        self.viewEmployeePage = QtWidgets.QWidget()
+
+        self.horizontalLayoutWidget_vep = QtWidgets.QWidget(self.viewEmployeePage)
+        self.horizontalLayoutWidget_vep.setGeometry(QtCore.QRect(20, 10, 761, 61))
+        self.horizontalLayout_vep = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_vep)
+        self.horizontalLayout_vep.setContentsMargins(0, 0, 0, 0)
+        
+        self.label_vep = QtWidgets.QLabel(self.horizontalLayoutWidget_vep)
+        self.label_vep.setFont(font_20)
+        self.label_vep.setText('EMPLOYEE DETAILS')
+        self.horizontalLayout_vep.addWidget(self.label_vep)
+        
+        self.pushButton_vep_home = QtWidgets.QPushButton(self.horizontalLayoutWidget_vep)
+        self.pushButton_vep_home.setMaximumSize(QtCore.QSize(200, 40))
+        self.pushButton_vep_home.setText("HOME")
+        self.pushButton_vep_home.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(employeeDashboardIndex))
+        self.horizontalLayout_vep.addWidget(self.pushButton_vep_home)
+        
+        self.tableWidget_vep = QtWidgets.QTableWidget(self.viewEmployeePage)
+        self.tableWidget_vep.setGeometry(QtCore.QRect(20, 90, 761, 425))
+        self.tableWidget_vep.setShowGrid(True)
+
+        self.horizontalLayoutWidget_vep_2 = QtWidgets.QWidget(self.viewEmployeePage)
+        self.horizontalLayoutWidget_vep_2.setGeometry(QtCore.QRect(20, 525, 761, 50))
+        self.horizontalLayout_vep_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_vep_2)
+        self.horizontalLayout_vep_2.setContentsMargins(0, 0, 0, 0)
+
+        self.lineEdit_vep = QtWidgets.QLineEdit(self.horizontalLayoutWidget_vep_2)
+        self.lineEdit_vep.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_vep.setPlaceholderText('ENTER EMPLOYEE ID')
+        self.horizontalLayout_vep_2.addWidget(self.lineEdit_vep)
+
+        self.pushButton_vep = QtWidgets.QPushButton(self.horizontalLayoutWidget_vep_2)
+        self.pushButton_vep.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_vep.setText("🔥")
+        self.pushButton_vep.clicked.connect(self.fire_employee)
+        self.horizontalLayout_vep_2.addWidget(self.pushButton_vep)
+        
+        self.stackedWidget.addWidget(self.viewEmployeePage)
+
+        ################################################################################# RESTOCK ITEMS ######################
+
+        self.restock_page = QtWidgets.QWidget()
+
+        self.horizontalLayoutWidget_rp = QtWidgets.QWidget(self.restock_page)
+        self.horizontalLayoutWidget_rp.setGeometry(QtCore.QRect(20, 10, 761, 61))
+        self.horizontalLayout_rp = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_rp)
+        self.horizontalLayout_rp.setContentsMargins(0, 0, 0, 0)
+
+        self.label_rp = QtWidgets.QLabel(self.horizontalLayoutWidget_rp)
+        self.label_rp.setFont(font_20)
+        self.label_rp.setText('RESTOCK ITEMS')
+        self.horizontalLayout_rp.addWidget(self.label_rp)
+        
+        self.pushButton_rp = QtWidgets.QPushButton(self.horizontalLayoutWidget_rp)
+        self.pushButton_rp.setMaximumSize(QtCore.QSize(200, 40))
+        self.pushButton_rp.setText('HOME')
+        self.pushButton_rp.clicked.connect(self.sendHome)
+        self.horizontalLayout_rp.addWidget(self.pushButton_rp)
+        
+        self.tableWidget_rp = QtWidgets.QTableWidget(self.restock_page)
+        self.tableWidget_rp.setGeometry(QtCore.QRect(20, 90, 761, 425))
+        self.tableWidget_rp.setShowGrid(True)
+
+        self.horizontalLayoutWidget_rp_2 = QtWidgets.QWidget(self.restock_page)
+        self.horizontalLayoutWidget_rp_2.setGeometry(QtCore.QRect(20, 525, 761, 50))
+        self.horizontalLayout_rp_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_rp_2)
+        self.horizontalLayout_rp_2.setContentsMargins(0, 0, 0, 0)
+        
+        self.lineEdit_rp = QtWidgets.QLineEdit(self.horizontalLayoutWidget_rp_2)
+        self.lineEdit_rp.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_rp.setPlaceholderText("ENTER ITEM ID")
+        self.horizontalLayout_rp_2.addWidget(self.lineEdit_rp)
+
+        self.lineEdit_rp_2 = QtWidgets.QLineEdit(self.horizontalLayoutWidget_rp_2)
+        self.lineEdit_rp_2.setMinimumSize(QtCore.QSize(0, 40))
+        self.lineEdit_rp_2.setPlaceholderText("ENTER QUANTITY")
+        self.horizontalLayout_rp_2.addWidget(self.lineEdit_rp_2)
+
+        self.rcv_date_rp = QtWidgets.QDateEdit(self.horizontalLayoutWidget_rp_2)
+        self.rcv_date_rp.setMinimumSize(QtCore.QSize(0, 40))
+        self.horizontalLayout_rp_2.addWidget(self.rcv_date_rp)
+
+        self.pushButton_rp = QtWidgets.QPushButton(self.horizontalLayoutWidget_rp_2)
+        self.pushButton_rp.setMinimumSize(QtCore.QSize(0, 40))
+        self.pushButton_rp.setText("RESTOCK ITEM")
+        self.pushButton_rp.clicked.connect(self.update_stock)
+        self.horizontalLayout_rp_2.addWidget(self.pushButton_rp)
+
+        self.stackedWidget.addWidget(self.restock_page)
+
+        ###############################################################################################################
+
         self.stackedWidget.addWidget(self.LoginPage)
 
         MainWindow.setCentralWidget(self.centralwidget)
@@ -1592,7 +1655,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(11)
+        self.stackedWidget.setCurrentIndex(loginIndex)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1609,11 +1672,20 @@ class Ui_MainWindow(object):
         self.pushButton_Login.setText(_translate("MainWindow", "LOGIN"))
         self.pushButton_Signup.setText(_translate("MainWindow", "SIGN UP"))
         
-        
-        self.groupBox.setTitle(_translate("MainWindow", "Welcome Fawaz,"))
-        self.label_2.setText(_translate("MainWindow", "EID: 6969"))
-        self.label_3.setText(_translate("MainWindow", "Role: Manager"))
-        self.label_4.setText(_translate("MainWindow", "Phone No: 8904751906"))
+        # add employee
+        self.label_ae.setText(_translate("MainWindow", "ADD EMPLOYEE!"))
+        self.lineEdit_ae_1.setPlaceholderText(_translate("MainWindow", "USERNAME"))
+        self.lineEdit_ae_2.setPlaceholderText(_translate("MainWindow", "PASSWORD"))
+        self.lineEdit_ae_3.setPlaceholderText(_translate("MainWindow", "NAME"))
+        self.lineEdit_ae_4.setPlaceholderText(_translate("MainWindow", "ROLE"))
+        self.lineEdit_ae_5.setPlaceholderText(_translate("MainWindow", "PHONE NO."))
+        self.pushButton_ae_7.setText(_translate("MainWindow", "ADD EMPLOYEE"))
+        self.pushButton_ae_6.setText(_translate("MainWindow", "HOME"))
+
+        # self.groupBox.setTitle(_translate("MainWindow", "Welcome Fawaz,"))
+        # self.label_2.setText(_translate("MainWindow", "EID: 6969"))
+        # self.label_3.setText(_translate("MainWindow", "Role: Manager"))
+        # self.label_4.setText(_translate("MainWindow", "Phone No: 8904751906"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Sales"))
         self.label_5.setText(_translate("MainWindow", "Total Sales Today"))
         self.label_6.setText(_translate("MainWindow", "$500"))
@@ -1671,44 +1743,6 @@ class Ui_MainWindow(object):
         self.label_41.setText(_translate("MainWindow", "$30"))
         self.label_7.setText(_translate("MainWindow", "RETAILER ORDERS"))
         self.pushButton_15.setText(_translate("MainWindow", "HOME"))
-        self.label_91.setText(_translate("MainWindow", "Vinol Retailers"))
-        self.label_121.setText(_translate("MainWindow", "Ordered On: 26th Jan 2021"))
-        self.label_122.setText(_translate("MainWindow", "Recieve On: 27th Jan 2021"))
-        self.label_123.setText(_translate("MainWindow", "Cost: $120"))
-        self.pushButton_18.setText(_translate("MainWindow", "SUPPLY"))
-        self.pushButton_19.setText(_translate("MainWindow", "DECLINE"))
-        self.label_124.setText(_translate("MainWindow", "Items"))
-        self.label_125.setText(_translate("MainWindow", "Item"))
-        self.label_126.setText(_translate("MainWindow", "Quantity"))
-        self.label_127.setText(_translate("MainWindow", "Price"))
-        self.label_128.setText(_translate("MainWindow", "Total Price"))
-        self.label_129.setText(_translate("MainWindow", "Tomato"))
-        self.label_130.setText(_translate("MainWindow", "$20"))
-        self.label_131.setText(_translate("MainWindow", "4 box"))
-        self.label_132.setText(_translate("MainWindow", "$80"))
-        self.label_133.setText(_translate("MainWindow", "orange"))
-        self.label_134.setText(_translate("MainWindow", "$10"))
-        self.label_135.setText(_translate("MainWindow", "3 box"))
-        self.label_136.setText(_translate("MainWindow", "$30"))
-        self.label_137.setText(_translate("MainWindow", "Vinol Retailers"))
-        self.label_139.setText(_translate("MainWindow", "Ordered On: 26th Jan 2021"))
-        self.label_140.setText(_translate("MainWindow", "Recieve On: 27th Jan 2021"))
-        self.label_141.setText(_translate("MainWindow", "Cost: $120"))
-        self.pushButton_20.setText(_translate("MainWindow", "SUPPLY"))
-        self.pushButton_21.setText(_translate("MainWindow", "DECLINE"))
-        self.label_142.setText(_translate("MainWindow", "Items"))
-        self.label_143.setText(_translate("MainWindow", "Item"))
-        self.label_144.setText(_translate("MainWindow", "Quantity"))
-        self.label_145.setText(_translate("MainWindow", "Price"))
-        self.label_146.setText(_translate("MainWindow", "Total Price"))
-        self.label_147.setText(_translate("MainWindow", "Tomato"))
-        self.label_148.setText(_translate("MainWindow", "$20"))
-        self.label_149.setText(_translate("MainWindow", "4 box"))
-        self.label_150.setText(_translate("MainWindow", "$80"))
-        self.label_151.setText(_translate("MainWindow", "orange"))
-        self.label_152.setText(_translate("MainWindow", "$10"))
-        self.label_153.setText(_translate("MainWindow", "3 box"))
-        self.label_154.setText(_translate("MainWindow", "$30"))
         self.label.setText(_translate("MainWindow", "SUPPLIER ORDERS"))
         self.pushButton_14.setText(_translate("MainWindow", "HOME"))
         self.label_10.setText(_translate("MainWindow", "ITEMS"))
@@ -1814,25 +1848,73 @@ class Ui_MainWindow(object):
 
         if role == 'SUPPLIER':
             if backend.login_supplier( user_data ):
-                self.stackedWidget.setCurrentIndex(4)
                 token['id'] = user_data['username']
+                token['role'] = 's'
+                self.sup_dashboard()
             else:
                 msg.exec_()
         
         elif role == 'RETAILER':
             if backend.login_retailer( user_data ):
-                self.stackedWidget.setCurrentIndex(8)
                 token['id'] = user_data['username']
+                token['role'] = 'r'
+                self.ret_dashboard()
             else:
                 msg.exec_()
 
         else:
             if backend.login_employee( user_data ):
-                self.stackedWidget.setCurrentIndex(0)
                 token['id'] = user_data['username']
+                token['role'] = 'e'
+                self.emp_dashboard()
             else:
                 msg.exec_()
+    
+    def emp_dashboard(self):
 
+        data = backend.get_emp( token['id'] )
+        self.groupBox.setTitle(f'Welcome, {data[2]}')
+
+        self.label_2.setText(f'E_ID: {data[0]}')
+        self.label_3.setText(f'Role: {data[3]}')
+        self.label_4.setText(f'Phone No.: {data[4]}')
+        
+        self.label_6.setText(f'${backend.sales_of_today()}')
+        self.label_9.setText(f'{backend.order_count()}')
+
+        self.stackedWidget.setCurrentIndex(employeeDashboardIndex)
+    
+    def sup_dashboard(self):
+
+        data = backend.get_sup( token['id'] )
+        self.groupBox_7.setTitle(f'Welcome, {data[1]}')
+
+        self.label_25.setText(f'S_ID: {data[0]}')
+        self.label_26.setText(f'Email: {data[2]}')
+        self.label_27.setText(f'Phone No.: {data[3]}')
+        
+        self.label_30.setText(f'Name: {data[4]}')
+        self.label_31.setText(f'Phone No.: {data[5]}')
+
+        self.stackedWidget.setCurrentIndex(supplierDashboardIndex)
+    
+    def ret_dashboard(self):
+
+        data = backend.get_ret( token['id'] )
+        self.groupBox_8.setTitle(f'Welcome, {data[1]}')
+
+        self.label_56.setText(f'R_ID: {data[0]}')
+        self.label_57.setText(f'Email: {data[2]}')
+        self.label_58.setText(f'Phone No.: {data[3]}')
+        
+        self.groupBox_re.setTitle(f'CONTACT EMPLOYEE:')
+        self.label_re_1.setText(f'Name: {data[4]}')
+        self.label_re_2.setText(f'Phone No.: {data[5]}')
+        # self.label_30.setText(f'Name: {data[4]}')
+        # self.label_31.setText(f'Phone No.: {data[5]}')
+
+        self.stackedWidget.setCurrentIndex(retailerDashboardIndex)
+        
     ######################################################################## SIGN UP ##########################################
     def signup_(self):
         
@@ -1875,25 +1957,324 @@ class Ui_MainWindow(object):
                 msg.setText(fail_msg)
                 msg.exec_()
 
+    def viewEmployee(self):
+        emp_data = backend.get_employees()
+
+        self.tableWidget_vep.setColumnCount(4)
+        self.tableWidget_vep.setRowCount(len(emp_data)+1)
+        
+        self.tableWidget_vep.setItem(0,0, QtWidgets.QTableWidgetItem("E_ID"))
+        self.tableWidget_vep.setItem(0,1, QtWidgets.QTableWidgetItem("NAME"))
+        self.tableWidget_vep.setItem(0,2, QtWidgets.QTableWidgetItem("ROLE"))
+        self.tableWidget_vep.setItem(0,3, QtWidgets.QTableWidgetItem("PHONE"))
+        
+        for i, item in enumerate(emp_data):
+            for j, data in enumerate(item):
+                self.tableWidget_vep.setItem( i+1, j, QtWidgets.QTableWidgetItem(f'{data}'))
+        
+        self.stackedWidget.setCurrentIndex(viewEmployeePageIndex)
+
+
+    def addEmployee(self):
+        user_data = {
+            'username': self.lineEdit_ae_1.text(),
+            'password': self.lineEdit_ae_2.text(),
+            'name': self.lineEdit_ae_3.text(),
+            'role': self.lineEdit_ae_4.text(),
+            'phone': self.lineEdit_ae_5.text(),
+        }
+
+        fail_msg = "FAILED TO ADD USER!"
+
+        success_msg = f""" ADDED USER:
+            username: {user_data['username']} \n
+            name: {user_data['name']} \n
+            role: {user_data['role']} \n
+            phone: {user_data['phone']} \n
+        """
+
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("SIGNUP!")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        
+        # backend.add_new_employee( user_data )
+        if backend.add_new_employee( user_data ):
+            msg.setText(success_msg)
+            msg.exec_()
+        else:
+            msg.setText(fail_msg)
+            msg.exec_()
+
+    def fire_employee(self):
+        e_id = self.lineEdit_vep.text()
+
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("FIRE EMPLOYEE!")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+
+        if backend.fire_employee( e_id ):
+            self.viewEmployee()
+            msg.setText('FIRED EMPLOYEE!')
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.exec_()
+        else:
+            msg.setText('FAILED TO FIRE EMPLOYEE!')
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.exec_()
+
     def get_items(self):
-            pass
+        
+        items_data = backend.get_items()
+
+        self.tableWidget.setColumnCount(5)
+        self.tableWidget.setRowCount(len(items_data)+1)
+        
+        self.tableWidget.setItem(0,0, QtWidgets.QTableWidgetItem("ITEM ID"))
+        self.tableWidget.setItem(0,1, QtWidgets.QTableWidgetItem("SUPPLIER"))
+        self.tableWidget.setItem(0,2, QtWidgets.QTableWidgetItem("NAME"))
+        self.tableWidget.setItem(0,3, QtWidgets.QTableWidgetItem("PRICE"))
+        self.tableWidget.setItem(0,4, QtWidgets.QTableWidgetItem("QUANTITY"))
+        
+        for i, item in enumerate(items_data):
+            for j, data in enumerate(item):
+                self.tableWidget.setItem( i+1, j, QtWidgets.QTableWidgetItem(f'{data}'))
+        
+        self.stackedWidget.setCurrentIndex(itemsPageIndex_employee)
+
+    
+    def del_items(self):
+        i_id = self.lineEdit_i.text()
+
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("DELETE ITEM")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+
+        if backend.del_item( i_id ):
+            self.get_items()
+            msg.setText('DELETED ITEM!')
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.exec_()
+        else:
+            msg.setText('FAILED TO DELETE ITEM!')
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.exec_()
+
 
     def add_new_item(self):
-        order_data = {
+        
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("ADD ITEMS!")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+
+        data = {
             's_id': token['id'],
-            'rcv_date': self.rcv_date.date()
-        }
-            
-        item_data = {
-            'name': self.lineEdit_7.text(),
-            'price': self.lineEdit_8.text(),
+            'i_name': self.lineEdit_7.text(),
+            'i_price': self.lineEdit_8.text(),
+            'rcv_date': self.rcv_date.date().toString(QtCore.Qt.ISODate),
             'quantity': self.lineEdit_9.text(),
         }
 
-        backend.add_new_item( order_data, item_data )
-        # print(order_data)
+        if backend.add_new_item( data ):
+            msg.setText("ITEM ADDED!")
+            msg.exec_()
+        else:
+            msg.setText("FAILED TO ADD ITEM!")
+            msg.exec_()
 
+    def logout(self):
+        self.stackedWidget.setCurrentIndex(loginIndex)
+        token['id'] = ''
+        token['role'] = ''
 
+    def supplier_orders(self):
+
+        if token['role'] == 's':
+            orders_data = backend.get_orders_suplier( token['id'] )
+        elif token['role'] == 'e':
+            orders_data = backend.get_orders_employee()
+
+        self.tableWidget_so.setColumnCount(8)
+        self.tableWidget_so.setRowCount(len(orders_data)+1)
+        
+        self.tableWidget_so.setItem(0,0, QtWidgets.QTableWidgetItem("ORDER ID"))
+        self.tableWidget_so.setItem(0,1, QtWidgets.QTableWidgetItem("SUPPLIER"))
+        self.tableWidget_so.setItem(0,2, QtWidgets.QTableWidgetItem("ITEM"))
+        self.tableWidget_so.setItem(0,3, QtWidgets.QTableWidgetItem("PRICE"))
+        self.tableWidget_so.setItem(0,4, QtWidgets.QTableWidgetItem("QUANTITY"))
+        self.tableWidget_so.setItem(0,5, QtWidgets.QTableWidgetItem("ORD_DATE"))
+        self.tableWidget_so.setItem(0,6, QtWidgets.QTableWidgetItem("RCV_DATE"))
+        self.tableWidget_so.setItem(0,7, QtWidgets.QTableWidgetItem("TOTAL PRICE"))
+
+        for i, item in enumerate(orders_data):
+            for j, data in enumerate(item):
+                self.tableWidget_so.setItem( i+1, j, QtWidgets.QTableWidgetItem(f'{data}'))
+
+        self.stackedWidget.setCurrentIndex(supplierOrdersIndex)
+
+        # index = self.verticalLayout_17.count()-1
+        
+        # if index+1:
+        #     while(index >= 0):
+        #         myWidget = self.verticalLayout_17.itemAt(index).widget()
+        #         myWidget.setParent(None)
+        #         index -=1
+
+        # for i in orders_data:
+
+        #     self.order = QtWidgets.QWidget(self.scrollAreaWidgetContents_3)
+        #     self.order.setMinimumSize(QtCore.QSize(0, 0))
+        #     self.order.setStyleSheet("background-color:pink")
+            
+        #     self.horizontalLayout_31 = QtWidgets.QHBoxLayout(self.order)
+        #     self.verticalLayout_18 = QtWidgets.QVBoxLayout()
+
+        #     self.order_sup = QtWidgets.QLabel(self.order)
+        #     self.order_sup.setText(i['order']['s_name'])
+        #     self.order_sup.setFont(font_14)
+        #     self.verticalLayout_18.addWidget(self.order_sup)
+            
+        #     self.order_odate = QtWidgets.QLabel(self.order)
+        #     self.order_odate.setText(f"Ordered Date: {i['order']['ord_date']}")
+        #     self.order_odate.setFont(font_10)
+        #     self.verticalLayout_18.addWidget(self.order_odate)
+            
+        #     self.order_rdate = QtWidgets.QLabel(self.order)
+        #     self.order_rdate.setText(f"Recieve Date: {i['order']['rcv_date']}")
+        #     self.order_rdate.setFont(font_10)
+        #     self.verticalLayout_18.addWidget(self.order_rdate)
+            
+        #     self.order_cost = QtWidgets.QLabel(self.order)
+        #     self.order_cost.setText(f"COST: {i['order']['cost']}")
+        #     self.order_cost.setFont(font_14)
+        #     self.verticalLayout_18.addWidget(self.order_cost)
+            
+        #     self.horizontalLayout_31.addLayout(self.verticalLayout_18)
+        #     self.verticalLayout_26 = QtWidgets.QVBoxLayout()
+
+        #     self.item = QtWidgets.QVBoxLayout()
+
+        #     self.item_label = QtWidgets.QLabel(self.order)
+        #     self.item_label.setMaximumSize(QtCore.QSize(16777215, 30))
+        #     self.item_label.setFont(font_14)
+        #     self.item_label.setText('ITEMS')
+        #     self.verticalLayout_26.addWidget(self.item_label)
+            
+        #     self.horizontalLayout_33 = QtWidgets.QHBoxLayout()
+                
+        #     self.label_c1 = QtWidgets.QLabel(self.order)
+        #     self.label_c1.setText("ITEM")
+        #     self.label_c1.setFont(font_10)
+        #     self.horizontalLayout_33.addWidget(self.label_c1)
+                
+        #     self.label_c2 = QtWidgets.QLabel(self.order)
+        #     self.label_c2.setText("PRICE")
+        #     self.label_c2.setFont(font_10)
+        #     self.horizontalLayout_33.addWidget(self.label_c2)
+                
+        #     self.label_c3 = QtWidgets.QLabel(self.order)
+        #     self.label_c3.setText("QUANTITY")
+        #     self.label_c3.setFont(font_10)
+        #     self.horizontalLayout_33.addWidget(self.label_c3)
+
+        #     self.label_c4 = QtWidgets.QLabel(self.order)
+        #     self.label_c4.setText("TOTACL PRICE")
+        #     self.label_c4.setFont(font_10)
+        #     self.horizontalLayout_33.addWidget(self.label_c4)
+            
+            
+        #     ### ITEMS
+        #     for j in i['item']:
+                
+        #         self.item_d = QtWidgets.QLabel(self.order)
+                
+        #         self.horizontalLayout_33.addWidget(self.item_d)
+        #         self.verticalLayout_26.addLayout(self.horizontalLayout_33)
+        #         self.horizontalLayout_34 = QtWidgets.QHBoxLayout()
+                
+        #         self.item_d_1 = QtWidgets.QLabel(self.order)
+        #         self.item_d_1.setText(j['i_name'])
+        #         self.horizontalLayout_34.addWidget(self.item_d_1)
+                
+        #         self.item_d_2 = QtWidgets.QLabel(self.order)
+        #         self.item_d_2.setText(f"{j['i_price']}")
+        #         self.horizontalLayout_34.addWidget(self.item_d_2)
+                
+        #         self.item_d_3 = QtWidgets.QLabel(self.order)
+        #         self.item_d_3.setText(f"{j['i_quantity']}")
+        #         self.horizontalLayout_34.addWidget(self.item_d_3)
+                
+        #         self.item_d_4 = QtWidgets.QLabel(self.order)
+        #         self.item_d_4.setText(f"{j['i_cost']}")
+        #         self.horizontalLayout_34.addWidget(self.item_d_4)
+                
+        #         self.verticalLayout_26.addLayout(self.horizontalLayout_34)
+                
+        #         self.horizontalLayout_31.addLayout(self.verticalLayout_26)
+        #         self.verticalLayout_17.addWidget(self.order)
+
+    def sendHome(self):
+        if token['role'] == 's':
+            self.stackedWidget.setCurrentIndex(supplierDashboardIndex)
+        elif token['role'] == 'e':
+            self.stackedWidget.setCurrentIndex(employeeDashboardIndex)
+
+    def restock(self):
+
+        i_data = backend.get_items()
+
+        self.tableWidget_rp.setColumnCount(5)
+        self.tableWidget_rp.setRowCount(len(i_data)+1)
+        
+        self.tableWidget_rp.setItem(0,0, QtWidgets.QTableWidgetItem("ITEM ID"))
+        self.tableWidget_rp.setItem(0,1, QtWidgets.QTableWidgetItem("SUPPLIER"))
+        self.tableWidget_rp.setItem(0,2, QtWidgets.QTableWidgetItem("NAME"))
+        self.tableWidget_rp.setItem(0,3, QtWidgets.QTableWidgetItem("PRICE"))
+        self.tableWidget_rp.setItem(0,4, QtWidgets.QTableWidgetItem("QUANTITY"))
+        
+        for i, item in enumerate(i_data):
+            for j, data in enumerate(item):
+                self.tableWidget_rp.setItem( i+1, j, QtWidgets.QTableWidgetItem(f'{data}'))
+
+        self.stackedWidget.setCurrentIndex(restockPageIndex)
+
+    def update_stock(self):
+        data = {
+            's_id': token['id'],
+            'rcv_date': self.rcv_date_rp.date().toString(QtCore.Qt.ISODate),
+            'quantity': self.lineEdit_rp_2.text(),
+            'id': self.lineEdit_rp.text(),
+        }
+
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("RESTOCK ITEMS!")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+
+        if backend.restock( data ):
+            msg.setText("ITEM RESTOCKED!")
+            self.restock()
+            msg.exec_()
+        else:
+            msg.setText("FAILED TO RESTOCK ITEM!")
+            msg.exec_()
+    
+    def del_order_s(self):
+        o_id = self.lineEdit_od.text()
+        
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("DELCINE ORDER!")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+
+        if backend.del_order_sup( o_id ):
+            msg.setText("ORDER DECLINED!")
+            self.supplier_orders()
+            msg.exec_()
+        else:
+            msg.setText("FAILED TO DECLINE ORDER!")
+            msg.exec_()
 
 if __name__ == "__main__":
     import sys
