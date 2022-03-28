@@ -1,3 +1,5 @@
+
+
 CREATE TABLE EMPLOYEE (
 	E_ID VARCHAR(20) PRIMARY KEY,
 	E_Password VARCHAR(20),
@@ -92,22 +94,31 @@ WHERE O.O_ID = I_O.O_ID AND I.I_ID = I_O.I_ID;
 ------------------------------------------------------ TRIGGERS ----------------------------------------------
 
 -- add employee to suplier
+
+
 CREATE TRIGGER SSE
 BEFORE INSERT ON SUPPLIER
 FOR EACH ROW
-SET NEW.E_ID = ( SELECT E_ID FROM Employee ORDER BY RAND() LIMIT 1 );
+SET NEW.E_ID =
+	(SELECT E_ID
+	FROM Employee
+	ORDER BY RAND()
+	LIMIT 1);
 
--- add employee to retailer
+
 CREATE TRIGGER SRE
 BEFORE INSERT ON RETAILER
 FOR EACH ROW
-SET NEW.E_ID = ( SELECT E_ID FROM Employee ORDER BY RAND() LIMIT 1 );
+SET NEW.E_ID = 
+	(SELECT E_ID
+	FROM Employee
+	ORDER BY RAND()
+	LIMIT 1);
 
 CREATE TRIGGER DEL_EMP_SUPPLIER
 AFTER DELETE ON EMPLOYEE
 FOR EACH ROW
 UPDATE SUPPLIER SET E_ID = ( SELECT E_ID FROM EMPLOYEE ORDER BY RAND() LIMIT 1 ) WHERE E_ID = '';
-
 
 ------------------------------------------------------ PROCEDURE ----------------------------------------------
 
@@ -115,8 +126,18 @@ DELIMITER //
 CREATE PROCEDURE RESTOCK ( IN p_s_id VARCHAR(20), IN p_rcv_date DATE, IN p_i_id INT, IN p_quantity INT)  
 BEGIN 
 	SELECT @q:=Quantity FROM ITEMS WHERE I_ID = p_i_id;
-	INSERT INTO ORDERS_S ( Ord_date, Rcv_Date, S_ID, I_ID, Quantity ) VALUES ( curdate(), p_rcv_date, p_s_id, p_i_id, p_quantity );
+	INSERT INTO ORDERS_S (Ord_date, Rcv_Date, S_ID, I_ID, Quantity)
+	VALUES (curdate(), p_rcv_date, p_s_id, p_i_id, p_quantity);
 	UPDATE ITEMS SET Quantity = p_quantity + @q WHERE I_ID = p_i_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE ORDER_RET ( IN p_r_id VARCHAR(20), IN p_rcv_date DATE, IN p_i_id INT, IN p_quantity INT)  
+BEGIN 
+	SELECT @q:=Quantity FROM ITEMS WHERE I_ID = p_i_id;
+	INSERT INTO ORDERS_R ( Ord_date, Rcv_Date, R_ID, I_ID, Quantity ) VALUES ( curdate(), p_rcv_date, p_r_id, p_i_id, p_quantity );
+	UPDATE ITEMS SET Quantity = @q - p_quantity WHERE I_ID = p_i_id;
 END //
 DELIMITER ;
 
@@ -168,3 +189,9 @@ DELIMITER ;
 -- SELECT * FROM SUPLLIER 
 -- WHERE S_ID=
 
+-- UPDATE EMPLOYEE
+-- 			SET E_NAME = 'Fawaz Abid Hussain',
+-- 			E_PASSWORD = '123',
+-- 			E_ROLE = 'Manager',
+-- 			E_PHONE = 8904751906 
+-- 			WHERE E_ID = 'fauwara'

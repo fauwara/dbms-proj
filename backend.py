@@ -7,6 +7,21 @@ load_dotenv()
 # username = os.getenv('USERNAME')
 password = os.getenv('PASSWORD')
 
+# def add_new_item( data ):
+
+# 	cnx = connection.MySQLConnection(
+# 		user='root',
+# 		password=password,
+# 		host='127.0.0.1',
+# 		database='distributor' )
+	
+# 	cur = cnx.cursor()
+
+# 	cur.execute('SELECT * FROM EMPLOYEE;')
+
+# 	cnx.commit()
+# 	cnx.close()
+
 ########################################################### ADD NEW ITEM ##################################################################
 
 def add_new_item( data ):
@@ -53,37 +68,22 @@ def get_orders_employee():
 	""")
 
 	result = cur.fetchall()
+	cnx.close()
 
-		# cost = 0
-		# item_data = []
-		# for j in i_res:
-		# 	item = {
-		# 		'i_id': j[0],
-		# 		'i_name': j[1],
-		# 		'i_price': j[2],
-		# 		'i_quantity': j[3],
-		# 		'i_cost': j[4]
-		# 	}
+	return result
 
-		# 	cost += j[4]
-		# 	item_data.append(item)
-				
-		# order_data = {
-		# 	'o_id': i[0],
-		# 	'ord_date': i[1],
-		# 	'rcv_date': i[2],
-		# 	's_name': i[3],
-		# 	'cost': cost
-		# }
-
-		# result.append({
-		# 	'order': order_data,
-		# 	'item': item_data
-		# })
+def get_orders_employee_retail():
 	
-	# result = cur.fetchall()
-	
-	# cnx.commit()
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	cur.execute(f"""
+		SELECT O.O_ID, R_Name, I_Name, I.Price, O.Quantity, O.Ord_Date, O.Rcv_Date, I.Price * O.Quantity
+		FROM ORDERS_R O, RETAILER R, ITEMS I
+		WHERE O.I_ID = I.I_ID AND O.R_ID = R.R_ID;
+	""")
+
+	result = cur.fetchall()
 	cnx.close()
 
 	return result
@@ -94,9 +94,26 @@ def get_orders_suplier( s_id ):
 	cur = cnx.cursor()
 
 	cur.execute(f"""
-		SELECT O.O_ID, S_Name, I_Name, I.Price, O.Quantity, O.Ord_Date, O.Rcv_Date, I.Price * O.Quantity
-		FROM ORDERS_S O, SUPPLIER S, ITEMS I
-		WHERE O.I_ID = I.I_ID AND O.S_ID = S.S_ID AND O.S_ID = '{s_id}';
+		SELECT O.O_ID, I_Name, I.Price, O.Quantity, O.Ord_Date, O.Rcv_Date, I.Price * O.Quantity
+		FROM ORDERS_S O, ITEMS I
+		WHERE O.I_ID = I.I_ID AND O.S_ID = '{s_id}';
+	""")
+
+	result = cur.fetchall()
+
+	cnx.close()
+
+	return result
+
+def get_orders_retailer( r_id ):
+	
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	cur.execute(f"""
+		SELECT O.O_ID, I_Name, I.Price, O.Quantity, O.Ord_Date, O.Rcv_Date, I.Price * O.Quantity
+		FROM ORDERS_R O, ITEMS I
+		WHERE O.I_ID = I.I_ID AND O.R_ID = '{r_id}';
 	""")
 
 	result = cur.fetchall()
@@ -280,19 +297,33 @@ def sales_of_today():
 	cur = cnx.cursor()
 
 	cur.execute(f"""
-		(SELECT SUM(I.PRICE * OS.QUANTITY)
+		SELECT SUM(I.PRICE * OS.QUANTITY)
 		FROM ORDERS_S OS, ITEMS I
 		WHERE OS.I_ID = I.I_ID
-		AND OS.ORD_DATE = CURDATE())
-		-- MINUS
-		-- (SELECT SUM(I.PRICE * OR.QUANTITY)
-		-- FROM ORDERS_R OR, ITEMS I
-		-- WHERE OR.I_ID = I.I_ID
-		-- AND OR.ORD_DATE = CURDATE())
+		AND OS.ORD_DATE = CURDATE()
 	""")
 	
-	result = cur.fetchone()[0]
+	ss = cur.fetchone()[0]
 	
+	cur.execute(f"""
+		SELECT SUM(I.PRICE * O.QUANTITY)
+		FROM ORDERS_R O, ITEMS I
+		WHERE O.I_ID = I.I_ID
+		AND O.ORD_DATE = CURDATE()
+	""")
+	
+	sr = cur.fetchone()[0]
+	
+	if sr and ss:
+		result = sr - ss
+	elif ss:
+		result = -ss
+	elif sr:
+		result = sr
+	else:
+		result = 0
+	
+
 	cnx.commit()
 	cnx.close()
 
@@ -302,19 +333,23 @@ def order_count():
 	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
 	cur = cnx.cursor()
 
-	cur.execute(f"""
-		
-		(SELECT COUNT(OS.O_ID)
+	cur.execute(f""" 
+		SELECT COUNT(OS.O_ID)
 		FROM ORDERS_S OS
-		WHERE OS.ORD_DATE = CURDATE())
-		-- MINUS
-		-- (SELECT SUM(I.PRICE * OR.QUANTITY)
-		-- FROM ORDERS_R OR, ITEMS I
-		-- WHERE OR.I_ID = I.I_ID
-		-- AND OR.ORD_DATE = CURDATE())
+		WHERE OS.ORD_DATE = CURDATE()
 	""")
+
+	ocs = cur.fetchone()[0]
 	
-	result = cur.fetchone()[0]
+	cur.execute(f""" 
+		SELECT COUNT(O.O_ID)
+		FROM ORDERS_R O
+		WHERE O.ORD_DATE = CURDATE()
+	""")
+
+	ocr = cur.fetchone()[0]
+
+	result = ocs + ocr
 	
 	cnx.commit()
 	cnx.close()
@@ -431,6 +466,23 @@ def restock( data ):
 		cnx.close()
 		return 0
 
+def order( data ):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	try:
+		cur.callproc('ORDER_RET', args=( data['r_id'], data['rcv_date'], data['id'], data['quantity']))
+		# cur.execute(f"CALL RESTOCK('{data['s_id']}', '{data['rcv_date']}', {data['id']}, {data['quantity']});", multi=True)
+
+		cnx.commit()
+		cnx.close()
+		return 1
+
+	except:
+		cnx.close()
+		return 0
+
+
 def del_order_sup( o_id ):
 	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
 	cur = cnx.cursor()
@@ -463,4 +515,71 @@ def del_order_sup( o_id ):
 		cnx.close()
 		return 0
 
-# del_order_sup(12)
+def del_order_ret( o_id ):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	try:
+		cur.execute(f"""
+			SELECT O.QUANTITY, O.I_ID, I.QUANTITY
+			FROM ORDERS_R O, ITEMS I
+			WHERE O.I_ID = I.I_ID AND O_ID = {o_id};
+		""")
+
+		res = cur.fetchone()
+		q = res[2] + res[0]
+
+		cur.execute(f"""
+			UPDATE ITEMS
+			SET QUANTITY = {q}
+			WHERE I_ID = { res[1] };
+		""")
+
+		cur.execute(f"""
+			DELETE FROM ORDERS_R WHERE O_ID = { o_id };
+		""")
+
+		cnx.commit()
+		cnx.close()
+		return 1
+
+	except:
+		cnx.close()
+		return 0
+
+def update_employee( e_data ):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	try:
+		cur.execute(f"""
+				UPDATE EMPLOYEE
+				SET E_NAME = '{e_data['name']}',
+				E_PASSWORD = '{e_data['password']}',
+				E_ROLE = '{e_data['role']}',
+				E_PHONE = {e_data['phone']} 
+				WHERE E_ID = '{e_data['id']}';
+		""")
+
+		cnx.commit()
+		cnx.close()
+		return 1
+
+	except:
+		cnx.close()
+		return 0
+
+def get_items_supplier (s_id):
+	cnx = connection.MySQLConnection( user='root', password=password, host='127.0.0.1', database='distributor' )
+	cur = cnx.cursor()
+
+	cur.execute(f""" SELECT I_ID, I_Name, Price, Quantity
+		FROM ITEMS I, SUPPLIER S
+		WHERE I.S_ID = S.S_ID AND S.S_ID = '{s_id}'; """)
+	
+	result = cur.fetchall()
+	
+	cnx.commit()
+	cnx.close()
+
+	return result
