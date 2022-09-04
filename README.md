@@ -7,14 +7,17 @@ Designed and Implemented a DBMS for suppliers, distributors and retailers to mai
 **Tech**: Python, MySQL, </br>
 **Frameworks**: [PyQt](https://wiki.python.org/moin/PyQt),
 
-*Employee's Dashboard* </br>
-![employee's dashboard](/assets/ss1.png )
+![employee's dashboard](/assets/ss1.png ) </br>
+*Employee's Dashboard*
 
-*items in the distriibutors store house* </br>
-![items in the distriibutors store house](/assets/ss2.png)
+![items in the distriibutors store house](/assets/ss2.png) </br>
+*items in the distriibutors store house*
 
-*supplier adding new item to their warehouse* </br>
-![supplier adding new item to their warehouse](/assets/ss3.png)
+![supplier adding new item to their warehouse](/assets/ss3.png) </br>
+*supplier adding new item to their warehouse*
 
-*retailer ordering item from the distributor* </br>
-![retailer ordering item from the distributor](/assets/ss4.png)
+![retailer ordering item from the distributor](/assets/ss4.png) </br>
+*retailer ordering item from the distributor*
+
+![history of orders made by suppliers and retailers](/assets/ss5.png) </br>
+*history of orders made by suppliers and retailers*
