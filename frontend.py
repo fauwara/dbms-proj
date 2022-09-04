@@ -2177,7 +2177,7 @@ class Ui_MainWindow(object):
             'password': self.lineEdit_ae_2.text(),
             'name': self.lineEdit_ae_3.text(),
             'role': self.lineEdit_ae_4.text(),
-            'phone': self.lindeEdit_ae_5.text(),
+            'phone': self.lineEdit_ae_5.text(),
         }
 
         fail_msg = "FAILED TO ADD USER!"
